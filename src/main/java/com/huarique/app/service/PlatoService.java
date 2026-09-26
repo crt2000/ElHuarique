@@ -10,7 +10,7 @@ import java.util.List;
 public class PlatoService {
 
     private List<Plato> platosDestacados = new ArrayList<>();
-    private int siguienteId = 10; // los 9 primeros ya usan los ids 1 a 9
+    private int siguienteId = 10;
 
     public PlatoService() {
         platosDestacados.add(new Plato(1, "Ceviche Mixto", "Pescado y mariscos frescos en leche de tigre", 38.0, "img/ceviche-mixto.jpg", "Popular"));
