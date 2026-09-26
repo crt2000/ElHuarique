@@ -1,6 +1,6 @@
-package MarcosDweb.ElHuarique.service;
+package com.huarique.app.service;
 
-import MarcosDweb.ElHuarique.model.Reserva;
+import com.huarique.app.model.Reserva;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package MarcosDweb.ElHuarique.model;
+package com.huarique.app.model;
 
 public class Reserva {
     private int id;
