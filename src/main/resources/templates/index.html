@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 
 <head>
   <meta charset="UTF-8">
@@ -12,14 +12,14 @@
     content="cevicheria piura, parrillas piura, el huarique de luis, ceviche castilla, comida marina, reservas restaurante">
   <meta name="author" content="El Huarique de Luis">
 
-  <link rel="icon" type="image/png" href="img/logo-elhuariquedeluis.png">
+  <link rel="icon" type="image/png" th:href="@{/img/logo-elhuariquedeluis.png}" href="img/logo-elhuariquedeluis.png">
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" th:href="@{/style.css}" href="style.css">
 </head>
 
 <body>
@@ -51,7 +51,7 @@
       <div class="container">
 
         <a class="navbar-brand" href="#inicio">
-          <img src="img/logo-elhuariquedeluis.png" alt="Logo El Huarique de Luis" class="brand-logo-img me-1">
+          <img th:src="@{/img/logo-elhuariquedeluis.png}" src="img/logo-elhuariquedeluis.png" alt="Logo El Huarique de Luis" class="brand-logo-img me-1">
           <div class="brand-title">
             <span class="main-title">EL HUARIQUE DE LUIS</span>
             <span class="sub-title">Cevichería & Parrillas</span>
@@ -91,13 +91,35 @@
                 <i class="bi bi-envelope me-1 d-lg-none"></i>Contacto
               </a>
             </li>
+            <!-- Enlace al panel exclusivo para trabajador -->
+            <li class="nav-item" th:if="${esTrabajador}">
+              <a class="nav-link text-warning fw-bold" href="#panel-trabajador">
+                <i class="bi bi-shield-lock me-1"></i>Panel Trabajador
+              </a>
+            </li>
           </ul>
 
-          <div class="d-flex">
+          <div class="d-flex align-items-center gap-2">
             <a href="#reservas" class="btn btn-reserva-nav">
               <i class="bi bi-calendar-event-fill"></i>
               <span>Reservar Mesa</span>
             </a>
+
+            <!-- Login Simulado (Visible si NO es trabajador) -->
+            <form th:if="${!esTrabajador}" th:action="@{/login}" method="post" class="d-flex align-items-center gap-1 ms-lg-2 my-2 my-lg-0">
+              <input type="text" name="usuario" class="form-control form-control-sm text-bg-dark border-secondary" placeholder="Usuario" style="width: 85px;" required>
+              <input type="password" name="clave" class="form-control form-control-sm text-bg-dark border-secondary" placeholder="Clave" style="width: 75px;" required>
+              <button type="submit" class="btn btn-warning btn-sm rounded px-2" title="Entrar como trabajador">
+                <i class="bi bi-box-arrow-in-right"></i>
+              </button>
+            </form>
+
+            <!-- Cerrar Sesión (Visible si ES trabajador) -->
+            <div th:if="${esTrabajador}" class="d-flex align-items-center ms-lg-2 my-2 my-lg-0">
+              <a th:href="@{/logout}" class="btn btn-outline-danger btn-sm rounded px-2" title="Cerrar sesión">
+                <i class="bi bi-box-arrow-right me-1"></i>Salir
+              </a>
+            </div>
           </div>
         </div>
 
@@ -186,178 +208,28 @@
           <p class="text-secondary">Los favoritos de nuestros comensales</p>
         </div>
 
+        <!-- Lista dinámica de platos destacados iterados con Thymeleaf -->
         <div id="platosCarousel" class="carousel slide" data-bs-ride="carousel">
-          <div class="carousel-indicators">
-            <button type="button" data-bs-target="#platosCarousel" data-bs-slide-to="0" class="active"></button>
-            <button type="button" data-bs-target="#platosCarousel" data-bs-slide-to="1"></button>
-            <button type="button" data-bs-target="#platosCarousel" data-bs-slide-to="2"></button>
-          </div>
-          <div class="carousel-inner">
-            <div class="carousel-item active">
-              <div class="row g-4">
-                <div class="col-md-4">
-                  <div class="card-plato">
-                    <div class="card-plato-img">
-                      <img src="img/CevicheMixto.jpg" alt="Ceviche Mixto" class="img-fluid">
-                      <span class="badge-plato">Popular</span>
-                    </div>
-                    <div class="card-plato-body">
-                      <h5>Ceviche Mixto</h5>
-                      <p>Filete, caballa y pota en leche de tigre</p>
-                      <div class="d-flex justify-content-between align-items-center">
-                        <span class="precio">S/ 11.00</span>
-                        <a href="#menu" class="btn btn-sm btn-outline-accent">Ver más</a>
-                      </div>
-                    </div>
-                  </div>
+          <div class="row g-4 justify-content-center">
+            <div class="col-lg-4 col-md-6" th:each="p : ${platos}">
+              <div class="card-plato h-100">
+                <div class="card-plato-img position-relative overflow-hidden rounded-top-4">
+                  <img th:src="@{'/' + ${p.imagenUrl}}" th:alt="${p.nombre}" class="img-fluid w-100" style="height: 220px; object-fit: cover;">
+                  <span class="badge-plato position-absolute top-0 end-0 m-3 px-3 py-1 rounded-pill" th:text="${p.etiqueta}">Popular</span>
                 </div>
-                <div class="col-md-4">
-                  <div class="card-plato">
-                    <div class="card-plato-img">
-                      <img src="img/ChicharronMixto.jpg" alt="Chicharrón Mixto" class="img-fluid">
-                      <span class="badge-plato bg-danger">Parrilla</span>
-                    </div>
-                    <div class="card-plato-body">
-                      <h5>Chicharrón Mixto</h5>
-                      <p>Pescado y pota crujientes con yuca</p>
-                      <div class="d-flex justify-content-between align-items-center">
-                        <span class="precio">S/ 17.00</span>
-                        <a href="#menu" class="btn btn-sm btn-outline-accent">Ver más</a>
-                      </div>
-                    </div>
+                <div class="card-plato-body p-4 d-flex flex-column justify-content-between">
+                  <div>
+                    <h5 class="fw-bold text-white mb-2" th:text="${p.nombre}">Nombre del Plato</h5>
+                    <p class="text-secondary small mb-3" th:text="${p.descripcion}">Descripción</p>
                   </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="card-plato">
-                    <div class="card-plato-img">
-                      <img src="img/ParrillaMixta.jpg" alt="Parrilla Mixta" class="img-fluid">
-                      <span class="badge-plato bg-success">Especial</span>
-                    </div>
-                    <div class="card-plato-body">
-                      <h5>Parrilla Mixta</h5>
-                      <p>Mollejitas, pancitas y pollo a la brasa</p>
-                      <div class="d-flex justify-content-between align-items-center">
-                        <span class="precio">S/ 14.00</span>
-                        <a href="#menu" class="btn btn-sm btn-outline-accent">Ver más</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="carousel-item">
-              <div class="row g-4">
-                <div class="col-md-4">
-                  <div class="card-plato">
-                    <div class="card-plato-img">
-                      <img src="img/LecheTigre.jpg" alt="Leche de Tigre" class="img-fluid">
-                      <span class="badge-plato bg-info">Clásico</span>
-                    </div>
-                    <div class="card-plato-body">
-                      <h5>Leche de Tigre</h5>
-                      <p>Clásica con chicharrón de pota</p>
-                      <div class="d-flex justify-content-between align-items-center">
-                        <span class="precio">S/ 4.00</span>
-                        <a href="#menu" class="btn btn-sm btn-outline-accent">Ver más</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="card-plato">
-                    <div class="card-plato-img">
-                      <img src="img/ComboChihuan1.jpg" alt="Combo Chihuan" class="img-fluid">
-                      <span class="badge-plato bg-warning text-dark">Oferta</span>
-                    </div>
-                    <div class="card-plato-body">
-                      <h5>Combo Chihuan 1</h5>
-                      <p>Papa rellena + ceviche + chicharrón + leche tigre + gaseosa</p>
-                      <div class="d-flex justify-content-between align-items-center">
-                        <span class="precio">S/ 11.00</span>
-                        <a href="#menu" class="btn btn-sm btn-outline-accent">Ver más</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="card-plato">
-                    <div class="card-plato-img">
-                      <img src="img/Anticuchos.jpg" alt="Anticuchos" class="img-fluid">
-                      <span class="badge-plato bg-danger">Parrilla</span>
-                    </div>
-                    <div class="card-plato-body">
-                      <h5>Anticuchos</h5>
-                      <p>2 palos de anticuchos con papas</p>
-                      <div class="d-flex justify-content-between align-items-center">
-                        <span class="precio">S/ 12.00</span>
-                        <a href="#menu" class="btn btn-sm btn-outline-accent">Ver más</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="carousel-item">
-              <div class="row g-4">
-                <div class="col-md-4">
-                  <div class="card-plato">
-                    <div class="card-plato-img">
-                      <img src="img/ComboFamiliar1.jpg" alt="Combo Familiar" class="img-fluid">
-                      <span class="badge-plato bg-success">Familiar</span>
-                    </div>
-                    <div class="card-plato-body">
-                      <h5>Combo Familiar 1</h5>
-                      <p>Trío combinado grande + arroz con marisco</p>
-                      <div class="d-flex justify-content-between align-items-center">
-                        <span class="precio">S/ 27.00</span>
-                        <a href="#menu" class="btn btn-sm btn-outline-accent">Ver más</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="card-plato">
-                    <div class="card-plato-img">
-                      <img src="img/ChichaMorada.jpg" alt="Chicha Morada" class="img-fluid">
-                      <span class="badge-plato bg-info">Bebida</span>
-                    </div>
-                    <div class="card-plato-body">
-                      <h5>Chicha Morada</h5>
-                      <p>Jarra 1.5L de chicha morada artesanal</p>
-                      <div class="d-flex justify-content-between align-items-center">
-                        <span class="precio">S/ 8.00</span>
-                        <a href="#menu" class="btn btn-sm btn-outline-accent">Ver más</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="card-plato">
-                    <div class="card-plato-img">
-                      <img src="img/PapaRellena.jpg" alt="Papa Rellena" class="img-fluid">
-                      <span class="badge-plato bg-warning text-dark">Clásico</span>
-                    </div>
-                    <div class="card-plato-body">
-                      <h5>Papa Rellena</h5>
-                      <p>Con ceviche de filete y chicharrón</p>
-                      <div class="d-flex justify-content-between align-items-center">
-                        <span class="precio">S/ 7.00</span>
-                        <a href="#menu" class="btn btn-sm btn-outline-accent">Ver más</a>
-                      </div>
-                    </div>
+                  <div class="d-flex justify-content-between align-items-center pt-2 border-top border-secondary border-opacity-25">
+                    <span class="precio fs-5 fw-bold text-accent" th:text="'S/ ' + ${#numbers.formatDecimal(p.precio, 1, 2)}">S/ 0.00</span>
+                    <a href="#reservas" class="btn btn-sm btn-outline-accent rounded-pill px-3">Reservar</a>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <button class="carousel-control-prev" type="button" data-bs-target="#platosCarousel" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Anterior</span>
-          </button>
-          <button class="carousel-control-next" type="button" data-bs-target="#platosCarousel" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Siguiente</span>
-          </button>
         </div>
       </div>
     </section>
@@ -943,21 +815,21 @@
         <div class="row justify-content-center">
           <div class="col-lg-8">
             <div class="card shadow-sm border-0 rounded-4 p-4 p-md-5 bg-light">
-              <form id="reservaForm" class="needs-validation" novalidate>
+              <form id="reservaForm" th:action="@{/reservas/registrar}" th:object="${reserva}" method="post" class="needs-validation" novalidate>
                 <div class="row g-3">
                   <div class="col-md-6">
                     <label for="resNombre" class="form-label fw-semibold">Nombre Completo</label>
-                    <input type="text" class="form-control" id="resNombre" required>
+                    <input type="text" class="form-control" id="resNombre" th:field="*{nombre}" placeholder="Tu nombre y apellido" required>
                     <div class="invalid-feedback">Por favor ingrese su nombre.</div>
                   </div>
                   <div class="col-md-6">
                     <label for="resTelefono" class="form-label fw-semibold">Teléfono</label>
-                    <input type="tel" class="form-control" id="resTelefono" required>
+                    <input type="tel" class="form-control" id="resTelefono" th:field="*{telefono}" placeholder="Ej. 987654321" required>
                     <div class="invalid-feedback">Por favor ingrese su teléfono.</div>
                   </div>
                   <div class="col-md-12">
                     <label for="resSede" class="form-label fw-semibold">Sede</label>
-                    <select class="form-select" id="resSede" required>
+                    <select class="form-select" id="resSede" th:field="*{sede}" required>
                       <option value="" selected disabled>Seleccione una sede...</option>
                       <option value="Castilla (Av. Progreso 1213)">Sede Castilla</option>
                       <option value="Piura Centro">Sede Piura</option>
@@ -966,17 +838,17 @@
                   </div>
                   <div class="col-md-4">
                     <label for="resFecha" class="form-label fw-semibold">Fecha</label>
-                    <input type="date" class="form-control" id="resFecha" required>
+                    <input type="date" class="form-control" id="resFecha" th:field="*{fecha}" required>
                     <div class="invalid-feedback">Por favor seleccione una fecha.</div>
                   </div>
                   <div class="col-md-4">
                     <label for="resHora" class="form-label fw-semibold">Hora</label>
-                    <input type="time" class="form-control" id="resHora" required>
+                    <input type="time" class="form-control" id="resHora" th:field="*{hora}" required>
                     <div class="invalid-feedback">Por favor seleccione una hora.</div>
                   </div>
                   <div class="col-md-4">
                     <label for="resPersonas" class="form-label fw-semibold">N° Personas</label>
-                    <input type="number" class="form-control" id="resPersonas" min="1" max="20" required>
+                    <input type="number" class="form-control" id="resPersonas" th:field="*{personas}" min="1" max="20" placeholder="2" required>
                     <div class="invalid-feedback">Por favor ingrese la cantidad de personas.</div>
                   </div>
                   <div class="col-12 mt-4 text-center">
@@ -1029,6 +901,131 @@
            class="btn btn-success btn-lg rounded-pill px-5">
           <i class="bi bi-whatsapp me-2"></i>Escríbenos por WhatsApp
         </a>
+      </div>
+    </section>
+
+    <!-- SECCIÓN 6: PANEL CONDICIONAL DE TRABAJADOR (Sesión Simulada) -->
+    <!-- ============================================================== -->
+    <section id="panel-trabajador" th:if="${esTrabajador}" class="py-5 bg-dark text-white border-top border-warning border-3">
+      <div class="container py-3">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4 pb-3 border-bottom border-secondary border-opacity-50">
+          <div>
+            <span class="badge bg-warning text-dark px-3 py-2 rounded-pill mb-2"><i class="bi bi-shield-lock-fill me-1"></i>Modo Administrador</span>
+            <h2 class="display-6 fw-bold text-white mb-1">Panel de Gestión del Trabajador</h2>
+            <p class="text-secondary small mb-0">Gestión en tiempo real de productos, reservas de comensales y clientes frecuentes</p>
+          </div>
+          <a th:href="@{/logout}" class="btn btn-outline-danger px-4 rounded-pill">
+            <i class="bi bi-box-arrow-right me-1"></i>Cerrar Sesión de Trabajador
+          </a>
+        </div>
+
+        <!-- 1. GESTIÓN DEL MENÚ (CRUD PRODUCTOS) -->
+        <div class="card bg-black bg-opacity-50 border-secondary rounded-4 p-4 mb-5 shadow">
+          <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+            <div>
+              <h3 class="h4 text-warning fw-bold mb-0"><i class="bi bi-card-checklist me-2"></i>Gestión de Productos (Menú)</h3>
+              <p class="text-secondary small mb-0">Alta, baja y modificación de platos destacados</p>
+            </div>
+            <a th:href="@{/productos/nuevo}" class="btn btn-warning fw-bold px-4 rounded-pill">
+              <i class="bi bi-plus-circle-fill me-1"></i>Agregar Nuevo Producto
+            </a>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-dark table-hover table-bordered align-middle mb-0">
+              <thead class="table-warning text-dark">
+                <tr>
+                  <th scope="col" style="width: 60px;">ID</th>
+                  <th scope="col">Nombre del Plato</th>
+                  <th scope="col">Precio</th>
+                  <th scope="col">Etiqueta</th>
+                  <th scope="col" class="text-center" style="width: 280px;">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr th:each="p : ${platos}">
+                  <td class="fw-bold text-secondary text-center" th:text="${p.id}">1</td>
+                  <td class="fw-semibold text-white" th:text="${p.nombre}">Ceviche Mixto</td>
+                  <td class="text-warning fw-bold" th:text="'S/ ' + ${#numbers.formatDecimal(p.precio, 1, 2)}">S/ 38.00</td>
+                  <td><span class="badge bg-primary" th:text="${p.etiqueta}">Popular</span></td>
+                  <td class="text-center">
+                    <a th:href="@{/productos/editar/{id}(id=${p.id})}" class="btn btn-sm btn-outline-warning me-1">
+                      <i class="bi bi-pencil-square me-1"></i>Editar
+                    </a>
+                    <a th:href="@{/productos/eliminar/{id}(id=${p.id})}" class="btn btn-sm btn-outline-danger"
+                       onclick="return confirm('¿Seguro que deseas eliminar este producto?');">
+                      <i class="bi bi-trash-fill me-1"></i>Eliminar
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 2. RESERVAS REGISTRADAS -->
+        <div class="card bg-black bg-opacity-50 border-secondary rounded-4 p-4 mb-5 shadow">
+          <div class="mb-3">
+            <h3 class="h4 text-warning fw-bold mb-0"><i class="bi bi-calendar2-check-fill me-2"></i>Reservas Registradas</h3>
+            <p class="text-secondary small mb-0">Lista en memoria de reservas realizadas por comensales</p>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-dark table-hover table-bordered align-middle mb-0">
+              <thead class="table-warning text-dark">
+                <tr>
+                  <th scope="col">Cliente</th>
+                  <th scope="col">Teléfono</th>
+                  <th scope="col">Sede</th>
+                  <th scope="col">Fecha</th>
+                  <th scope="col">Hora</th>
+                  <th scope="col" class="text-center">Personas</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr th:if="${reservas == null or #lists.isEmpty(reservas)}">
+                  <td colspan="6" class="text-center text-secondary py-3">No hay reservas registradas en este momento.</td>
+                </tr>
+                <tr th:each="r : ${reservas}">
+                  <td class="fw-semibold text-white" th:text="${r.nombre}">Juan Pérez</td>
+                  <td th:text="${r.telefono}">987654321</td>
+                  <td th:text="${r.sede}">Castilla</td>
+                  <td th:text="${r.fecha}">2026-09-26</td>
+                  <td th:text="${r.hora}">13:00</td>
+                  <td class="text-center"><span class="badge bg-success" th:text="${r.personas} + ' personas'">2 personas</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 3. CLIENTES MÁS FRECUENTES -->
+        <div class="card bg-black bg-opacity-50 border-secondary rounded-4 p-4 shadow">
+          <div class="mb-3">
+            <h3 class="h4 text-warning fw-bold mb-0"><i class="bi bi-trophy-fill me-2"></i>Clientes Más Frecuentes</h3>
+            <p class="text-secondary small mb-0">Ranking calculado automáticamente a partir de las reservas registradas</p>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-dark table-hover table-bordered align-middle mb-0" style="max-width: 600px;">
+              <thead class="table-warning text-dark">
+                <tr>
+                  <th scope="col">Nombre del Cliente</th>
+                  <th scope="col" class="text-center" style="width: 200px;">Cantidad de Reservas</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr th:if="${clientesFrecuentes == null or #lists.isEmpty(clientesFrecuentes)}">
+                  <td colspan="2" class="text-center text-secondary py-3">Sin datos de clientes frecuentes.</td>
+                </tr>
+                <tr th:each="c : ${clientesFrecuentes}">
+                  <td class="fw-semibold text-white" th:text="${c.key}">Nombre</td>
+                  <td class="text-center">
+                    <span class="badge bg-warning text-dark fw-bold px-3 py-2" th:text="${c.value} + ' reservas'">1 reservas</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
       </div>
     </section>
 
@@ -1127,7 +1124,7 @@
     integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
     crossorigin="anonymous"></script>
 
-  <script src="main.js"></script>
+  <script th:src="@{/main.js}" src="main.js"></script>
 
 </body>
 

@@ -43,30 +43,18 @@ document.addEventListener('DOMContentLoaded', () => {
     yearSpan.textContent = new Date().getFullYear();
   }
 
-  // 5. Validación de formulario de reservas y Modal (de Edu)
+  // 5. Validación de formulario de reservas (permite envío real a Spring Boot)
   const reservaForm = document.getElementById('reservaForm');
 
   if (reservaForm) {
     reservaForm.addEventListener('submit', function (event) {
-      event.preventDefault();
-
       if (!reservaForm.checkValidity()) {
+        event.preventDefault();
         event.stopPropagation();
         reservaForm.classList.add('was-validated');
-      } else {
-        document.getElementById('modalNombre').textContent = document.getElementById('resNombre').value;
-        document.getElementById('modalTelefono').textContent = document.getElementById('resTelefono').value;
-        document.getElementById('modalSede').textContent = document.getElementById('resSede').value;
-        document.getElementById('modalFecha').textContent = document.getElementById('resFecha').value;
-        document.getElementById('modalHora').textContent = document.getElementById('resHora').value;
-        document.getElementById('modalPersonas').textContent = document.getElementById('resPersonas').value;
-
-        const confirmModal = new bootstrap.Modal(document.getElementById('confirmacionModal'));
-        confirmModal.show();
-
-        reservaForm.reset();
-        reservaForm.classList.remove('was-validated');
       }
+      // Si el formulario es válido, NO se ejecuta preventDefault(),
+      // permitiendo que la petición POST viaje al controlador de Spring Boot.
     }, false);
   }
 
