@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class LoginController {
@@ -13,10 +14,17 @@ public class LoginController {
     private static final String CLAVE = "1234";
 
     @PostMapping("/login")
-    public String login(@RequestParam String usuario, @RequestParam String clave, HttpSession session) {
-        if (USUARIO.equals(usuario) && CLAVE.equals(clave)) {
+    public String login(@RequestParam String usuario, @RequestParam String clave, HttpSession session, RedirectAttributes redirectAttributes) {
+        if ((USUARIO.equalsIgnoreCase(usuario) || "trabajador@gmail.com".equalsIgnoreCase(usuario)) && CLAVE.equals(clave)) {
             session.setAttribute("trabajador", true);
+            return "redirect:/";
         }
+        redirectAttributes.addFlashAttribute("errorLogin", true);
+        return "redirect:/";
+    }
+
+    @GetMapping("/login-invitado")
+    public String loginInvitado() {
         return "redirect:/";
     }
 
