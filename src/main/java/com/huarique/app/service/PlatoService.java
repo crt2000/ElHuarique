@@ -13,15 +13,15 @@ public class PlatoService {
     private int siguienteId = 10;
 
     public PlatoService() {
-        platosDestacados.add(new Plato(1, "Ceviche Mixto", "Pescado y mariscos frescos en leche de tigre", 38.0, "img/ceviche-mixto.jpg", "Popular"));
-        platosDestacados.add(new Plato(2, "Chicharrón Mixto", "Pescado y mariscos apanados y fritos", 35.0, "img/chicharron-mixto.jpg", "Popular"));
-        platosDestacados.add(new Plato(3, "Parrilla Mixta", "Selección de carnes a la parrilla", 55.0, "img/parrilla-mixta.jpg", "Parrilla"));
-        platosDestacados.add(new Plato(4, "Leche de Tigre", "Clásico jugo de cocción del ceviche", 18.0, "img/leche-de-tigre.jpg", "Entrada"));
-        platosDestacados.add(new Plato(5, "Combo Chihuan 1", "Combo de entrada y fondo", 60.0, "img/combo-chihuan-1.jpg", "Oferta"));
-        platosDestacados.add(new Plato(6, "Anticuchos", "Brochetas de corazón a la parrilla", 20.0, "img/anticuchos.jpg", "Parrilla"));
-        platosDestacados.add(new Plato(7, "Combo Familiar 1", "Combo para 4 personas", 90.0, "img/combo-familiar-1.jpg", "Oferta"));
-        platosDestacados.add(new Plato(8, "Chicha Morada", "Bebida tradicional peruana", 10.0, "img/chicha-morada.jpg", "Bebida"));
-        platosDestacados.add(new Plato(9, "Papa Rellena", "Papa rellena con guiso de carne", 12.0, "img/papa-rellena.jpg", "Entrada"));
+        platosDestacados.add(new Plato(1, "Ceviche Mixto", "Pescado y mariscos frescos en leche de tigre", 38.0, "img/ceviche-mixto.jpg", "Popular", "bg-primary"));
+        platosDestacados.add(new Plato(2, "Chicharrón Mixto", "Pescado y mariscos apanados y fritos", 35.0, "img/chicharron-mixto.jpg", "Popular", "bg-primary"));
+        platosDestacados.add(new Plato(3, "Parrilla Mixta", "Selección de carnes a la parrilla", 55.0, "img/parrilla-mixta.jpg", "Parrilla", "bg-danger"));
+        platosDestacados.add(new Plato(4, "Leche de Tigre", "Clásico jugo de cocción del ceviche", 18.0, "img/leche-de-tigre.jpg", "Entrada", "bg-info text-dark"));
+        platosDestacados.add(new Plato(5, "Combo Chihuan 1", "Combo de entrada y fondo", 60.0, "img/combo-chihuan-1.jpg", "Oferta", "bg-warning text-dark"));
+        platosDestacados.add(new Plato(6, "Anticuchos", "Brochetas de corazón a la parrilla", 20.0, "img/anticuchos.jpg", "Parrilla", "bg-danger"));
+        platosDestacados.add(new Plato(7, "Combo Familiar 1", "Combo para 4 personas", 90.0, "img/combo-familiar-1.jpg", "Familiar", "bg-success"));
+        platosDestacados.add(new Plato(8, "Chicha Morada", "Bebida tradicional peruana", 10.0, "img/chicha-morada.jpg", "Bebida", "bg-info text-dark"));
+        platosDestacados.add(new Plato(9, "Papa Rellena", "Papa rellena con guiso de carne", 12.0, "img/papa-rellena.jpg", "Entrada", "bg-secondary"));
     }
 
     public List<Plato> listarDestacados() {
@@ -39,6 +39,9 @@ public class PlatoService {
 
     public void agregar(Plato p) {
         p.setId(siguienteId++);
+        if (p.getColorEtiqueta() == null || p.getColorEtiqueta().trim().isEmpty()) {
+            p.setColorEtiqueta("bg-primary");
+        }
         platosDestacados.add(p);
     }
 
@@ -50,6 +53,9 @@ public class PlatoService {
             p.setPrecio(datos.getPrecio());
             p.setImagenUrl(datos.getImagenUrl());
             p.setEtiqueta(datos.getEtiqueta());
+            if (datos.getColorEtiqueta() != null && !datos.getColorEtiqueta().trim().isEmpty()) {
+                p.setColorEtiqueta(datos.getColorEtiqueta());
+            }
         }
     }
 

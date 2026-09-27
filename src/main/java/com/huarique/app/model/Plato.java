@@ -7,17 +7,24 @@ public class Plato {
     private double precio;
     private String imagenUrl;
     private String etiqueta;
+    private String colorEtiqueta;
 
     public Plato() {
+        this.colorEtiqueta = "bg-primary";
     }
 
     public Plato(int id, String nombre, String descripcion, double precio, String imagenUrl, String etiqueta) {
+        this(id, nombre, descripcion, precio, imagenUrl, etiqueta, "bg-primary");
+    }
+
+    public Plato(int id, String nombre, String descripcion, double precio, String imagenUrl, String etiqueta, String colorEtiqueta) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;
         this.imagenUrl = imagenUrl;
         this.etiqueta = etiqueta;
+        this.colorEtiqueta = (colorEtiqueta != null && !colorEtiqueta.isEmpty()) ? colorEtiqueta : "bg-primary";
     }
 
     public int getId() { return id; }
@@ -37,4 +44,7 @@ public class Plato {
 
     public String getEtiqueta() { return etiqueta; }
     public void setEtiqueta(String etiqueta) { this.etiqueta = etiqueta; }
+
+    public String getColorEtiqueta() { return colorEtiqueta; }
+    public void setColorEtiqueta(String colorEtiqueta) { this.colorEtiqueta = colorEtiqueta; }
 }
