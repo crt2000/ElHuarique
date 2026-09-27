@@ -24,35 +24,52 @@
 
 <body>
 
-  <!-- 1. TOP BAR INFORMATIVA-->
-  <div class="top-bar d-none d-md-block">
+  <div class="top-bar d-none d-md-block py-2" style="background: var(--primary-dark); font-size: 0.85rem;">
     <div class="container">
       <div class="d-flex justify-content-end align-items-center gap-3">
-        <span class="top-bar-item">
-          <i class="bi bi-telephone-fill"></i>
+        <span class="d-inline-flex align-items-center gap-2 text-light text-opacity-75">
+          <i class="bi bi-telephone-fill text-accent"></i>
           <span>975 519 075</span>
         </span>
+
+        <span class="text-white-50">|</span>
+
+        <div th:if="${esTrabajador}" class="d-inline-flex align-items-center gap-2">
+          <a href="#panel-trabajador" class="btn btn-sm btn-warning text-dark fw-bold rounded-pill px-3">
+            <i class="bi bi-shield-lock-fill me-1"></i>Panel Trabajador
+          </a>
+          <a th:href="@{/logout}" class="btn btn-sm btn-outline-danger fw-bold rounded-pill px-3">
+            <i class="bi bi-box-arrow-right me-1"></i>Salir
+          </a>
+        </div>
+
+        <button th:if="${!esTrabajador}" id="btnLoginShow" type="button" class="btn btn-sm btn-light text-dark fw-bold"
+          data-bs-toggle="modal" data-bs-target="#loginModal" style="padding: 6px 14px; border-radius: 20px;">
+          <i class="bi bi-person-circle me-1"></i>Iniciar Sesión
+        </button>
+
+
+
         <span class="text-white-50">|</span>
         <a href="https://www.facebook.com/CevichesYChicharronesLuchos" target="_blank" rel="noopener noreferrer"
-          class="top-bar-social facebook" title="Facebook">
+          class="text-light text-opacity-75 fs-5" title="Facebook">
           <i class="bi bi-facebook"></i>
         </a>
-        <a href="https://wa.me/51975519075" target="_blank" rel="noopener noreferrer" class="top-bar-social whatsapp"
-          title="WhatsApp">
+        <a href="https://wa.me/51975519075" target="_blank" rel="noopener noreferrer"
+          class="text-light text-opacity-75 fs-5 text-decoration-none" title="WhatsApp">
           <i class="bi bi-whatsapp"></i>
         </a>
       </div>
     </div>
   </div>
 
-  <!-- 2. HEADER Y BARRA DE NAVEGACIÓN PRINCIPAL -->
-  <header class="site-header">
+  <header class="site-header sticky-top">
     <nav id="mainNavbar" class="navbar navbar-expand-lg">
       <div class="container">
 
-        <a class="navbar-brand" href="#inicio">
-          <img th:src="@{/img/logo-elhuariquedeluis.png}" src="img/logo-elhuariquedeluis.png" alt="Logo El Huarique de Luis" class="brand-logo-img me-1">
-          <div class="brand-title">
+        <a class="navbar-brand d-flex align-items-center gap-2" href="#inicio">
+          <img src="img/logo-elhuariquedeluis.png" alt="Logo El Huarique de Luis" class="brand-logo-img">
+          <div class="brand-title d-flex flex-column lh-1">
             <span class="main-title">EL HUARIQUE DE LUIS</span>
             <span class="sub-title">Cevichería & Parrillas</span>
           </div>
@@ -91,12 +108,6 @@
                 <i class="bi bi-envelope me-1 d-lg-none"></i>Contacto
               </a>
             </li>
-            <!-- Enlace al panel exclusivo para trabajador -->
-            <li class="nav-item" th:if="${esTrabajador}">
-              <a class="nav-link text-warning fw-bold" href="#panel-trabajador">
-                <i class="bi bi-shield-lock me-1"></i>Panel Trabajador
-              </a>
-            </li>
           </ul>
 
           <div class="d-flex align-items-center gap-2">
@@ -104,22 +115,6 @@
               <i class="bi bi-calendar-event-fill"></i>
               <span>Reservar Mesa</span>
             </a>
-
-            <!-- Login Simulado (Visible si NO es trabajador) -->
-            <form th:if="${!esTrabajador}" th:action="@{/login}" method="post" class="d-flex align-items-center gap-1 ms-lg-2 my-2 my-lg-0">
-              <input type="text" name="usuario" class="form-control form-control-sm text-bg-dark border-secondary" placeholder="Usuario" style="width: 85px;" required>
-              <input type="password" name="clave" class="form-control form-control-sm text-bg-dark border-secondary" placeholder="Clave" style="width: 75px;" required>
-              <button type="submit" class="btn btn-warning btn-sm rounded px-2" title="Entrar como trabajador">
-                <i class="bi bi-box-arrow-in-right"></i>
-              </button>
-            </form>
-
-            <!-- Cerrar Sesión (Visible si ES trabajador) -->
-            <div th:if="${esTrabajador}" class="d-flex align-items-center ms-lg-2 my-2 my-lg-0">
-              <a th:href="@{/logout}" class="btn btn-outline-danger btn-sm rounded px-2" title="Cerrar sesión">
-                <i class="bi bi-box-arrow-right me-1"></i>Salir
-              </a>
-            </div>
           </div>
         </div>
 
@@ -127,11 +122,8 @@
     </nav>
   </header>
 
-  <!-- 3. CONTENIDO PRINCIPAL -->
   <main>
 
-    <!-- SECCIÓN 1: INICIO / HERO BANNER (Percy) -->
-    <!-- ========================================== -->
     <section id="inicio" class="hero-section">
       <div class="container h-100">
         <div class="row h-100 align-items-center">
@@ -147,19 +139,19 @@
               Cevichería · Parrillas · Bar
             </p>
 
-            <p class="fs-5 text-white-75 mb-4" style="max-width: 550px;">
+            <p class="fs-5 text-white text-opacity-75 mb-4" style="max-width: 550px;">
               El mejor sabor del norte en dos sedes en Castilla - Piura.
               Disfruta de nuestros ceviches, chicharrones y parrillas con la mejor sazón.
             </p>
 
             <div class="d-flex flex-wrap gap-3 mb-5">
-              <a href="#menu" class="btn btn-accent px-5 py-3">
+              <a href="#menu" class="btn btn-hero-accent">
                 Ver Menú
               </a>
-              <a href="#reservas" class="btn btn-outline-accent px-5 py-3">
+              <a href="#reservas" class="btn btn-hero-outline">
                 <i class="bi bi-calendar-check me-2"></i>Reservar
               </a>
-              <a href="https://wa.me/51975519075" target="_blank" class="btn btn-whatsapp px-4 py-3">
+              <a href="https://wa.me/51975519075" target="_blank" class="btn btn-hero-whatsapp">
                 <i class="bi bi-whatsapp me-2"></i>WhatsApp
               </a>
             </div>
@@ -199,91 +191,75 @@
       </div>
     </section>
 
-    <!-- PLATOS DESTACADOS - CARRUSEL (Percy) -->
     <section class="py-5 bg-brand-dark">
       <div class="container">
         <div class="text-center mb-5">
-          <span class="section-tag">⭐ Platos Estrella</span>
+          <span class="section-tag"><i class="bi bi-star-fill me-1"></i> Platos Estrella</span>
           <h2 class="display-5 fw-bold text-white">Nuestros <span class="text-accent">Especiales</span></h2>
           <p class="text-secondary">Los favoritos de nuestros comensales</p>
         </div>
 
-        <!-- Lista dinámica de platos destacados iterados con Thymeleaf -->
-        <div id="platosCarousel" class="carousel slide" data-bs-ride="carousel">
-          <div class="row g-4 justify-content-center">
-            <div class="col-lg-4 col-md-6" th:each="p : ${platos}">
-              <div class="card-plato h-100">
-                <div class="card-plato-img position-relative overflow-hidden rounded-top-4">
-                  <img th:src="@{'/' + ${p.imagenUrl}}" th:alt="${p.nombre}" class="img-fluid w-100" style="height: 220px; object-fit: cover;">
-                  <span class="badge-plato position-absolute top-0 end-0 m-3 px-3 py-1 rounded-pill" th:text="${p.etiqueta}">Popular</span>
-                </div>
-                <div class="card-plato-body p-4 d-flex flex-column justify-content-between">
-                  <div>
-                    <h5 class="fw-bold text-white mb-2" th:text="${p.nombre}">Nombre del Plato</h5>
-                    <p class="text-secondary small mb-3" th:text="${p.descripcion}">Descripción</p>
-                  </div>
-                  <div class="d-flex justify-content-between align-items-center pt-2 border-top border-secondary border-opacity-25">
-                    <span class="precio fs-5 fw-bold text-accent" th:text="'S/ ' + ${#numbers.formatDecimal(p.precio, 1, 2)}">S/ 0.00</span>
-                    <a href="#reservas" class="btn btn-sm btn-outline-accent rounded-pill px-3">Reservar</a>
+        <div id="platosCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000"
+          th:if="${platos != null and !#lists.isEmpty(platos)}">
+          <div class="carousel-inner">
+            <div class="carousel-item" th:each="i : ${#numbers.sequence(0, #lists.size(platos) - 1, 3)}"
+              th:classappend="${i == 0} ? ' active' : ''">
+              <div class="row g-4">
+                <div class="col-md-4"
+                  th:each="j : ${#numbers.sequence(i, (i + 2 < #lists.size(platos) ? i + 2 : #lists.size(platos) - 1))}">
+                  <div class="card-plato h-100 d-flex flex-column">
+                    <div class="card-plato-img">
+                      <img
+                        th:src="${#strings.startsWith(platos[j].imagenUrl, 'http') ? platos[j].imagenUrl : '/' + platos[j].imagenUrl}"
+                        th:alt="${platos[j].nombre}" class="img-fluid" onerror="this.src='/img/ceviche-mixto.jpg'">
+                      <span class="badge-plato" th:text="${platos[j].etiqueta}"
+                        th:classappend="${platos[j].colorEtiqueta != null and !#strings.isEmpty(platos[j].colorEtiqueta) ? platos[j].colorEtiqueta : 'bg-primary'}">
+                        Popular
+                      </span>
+                    </div>
+                    <div class="card-plato-body d-flex flex-column flex-grow-1">
+                      <h5 class="card-title text-white fw-bold mb-1 fs-5" th:text="${platos[j].nombre}">Ceviche Mixto
+                      </h5>
+                      <p class="card-text text-light text-opacity-75 small mb-3 flex-grow-1"
+                        th:text="${platos[j].descripcion}">
+                        Descripción del plato
+                      </p>
+                      <div
+                        class="d-flex justify-content-between align-items-center mt-auto pt-2 border-top border-white border-opacity-10">
+                        <span class="text-secondary small">Precio</span>
+                        <span class="precio" th:text="'S/ ' + ${#numbers.formatDecimal(platos[j].precio, 1, 2)}">S/
+                          38.00</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#platosCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Anterior</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#platosCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Siguiente</span>
+          </button>
+          <div class="carousel-indicators">
+            <button th:each="i, stat : ${#numbers.sequence(0, #lists.size(platos) - 1, 3)}" type="button"
+              data-bs-target="#platosCarousel" th:data-bs-slide-to="${stat.index}"
+              th:classappend="${stat.first} ? ' active' : ''" th:aria-current="${stat.first} ? 'true' : 'false'"
+              th:aria-label="'Especiales ' + ${stat.count}"></button>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- PROMOCIONES DESTACADAS (Percy) -->
     <section class="py-5 bg-light">
       <div class="container">
         <div class="text-center mb-5">
-          <span class="section-tag">🔥 Promociones</span>
-          <h2 class="display-5 fw-bold">Combos <span class="text-accent">Especiales</span></h2>
-        </div>
-        <div class="row g-4">
-          <div class="col-md-3 col-6">
-            <div class="card-promo text-center">
-              <span class="promo-badge">S/ 11.00</span>
-              <i class="bi bi-egg-fried text-warning fs-1"></i>
-              <h6 class="mt-2">Combo Chihuan 1</h6>
-              <small class="text-muted">Papa + Ceviche + Chicharrón + Leche Tigre + Gaseosa</small>
-            </div>
-          </div>
-          <div class="col-md-3 col-6">
-            <div class="card-promo text-center">
-              <span class="promo-badge bg-success">S/ 13.00</span>
-              <i class="bi bi-fire text-danger fs-1"></i>
-              <h6 class="mt-2">Combo Chihuan 2</h6>
-              <small class="text-muted">Papa + Ceviche Filete + Chicharrón + Leche Tigre + Gaseosa</small>
-            </div>
-          </div>
-          <div class="col-md-3 col-6">
-            <div class="card-promo text-center">
-              <span class="promo-badge bg-primary">S/ 27.00</span>
-              <i class="bi bi-people-fill text-info fs-1"></i>
-              <h6 class="mt-2">Combo Familiar 1</h6>
-              <small class="text-muted">Trío combinado grande + arroz con marisco</small>
-            </div>
-          </div>
-          <div class="col-md-3 col-6">
-            <div class="card-promo text-center">
-              <span class="promo-badge bg-danger">S/ 27.00</span>
-              <i class="bi bi-heart-fill text-danger fs-1"></i>
-              <h6 class="mt-2">Combo Familiar 2</h6>
-              <small class="text-muted">Dúo grande (ceviche filete + chicharrón pota) + gaseosa</small>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- TESTIMONIOS (Percy) -->
-    <section class="py-5 bg-brand-dark">
-      <div class="container">
-        <div class="text-center mb-5">
-          <span class="section-tag" style="background: rgba(243, 115, 53, 0.15); color: #f37335;">💬 Opiniones</span>
-          <h2 class="display-5 fw-bold text-white">Nuestros <span class="text-accent">Clientes</span></h2>
+          <span class="section-tag"><i class="bi bi-chat-quote-fill me-1"></i> Opiniones</span>
+          <h2 class="display-5 fw-bold text-dark">Nuestros <span class="text-accent">Clientes</span></h2>
+          <p class="text-secondary">Lo que opinan nuestros comensales</p>
         </div>
         <div class="row g-4">
           <div class="col-md-4">
@@ -291,11 +267,14 @@
               <div class="d-flex align-items-center gap-3 mb-3">
                 <div class="avatar-placeholder">JA</div>
                 <div>
-                  <h6 class="mb-0 text-white">Juan A.</h6>
-                  <small class="text-warning">★★★★★</small>
+                  <h6 class="mb-0 text-dark fw-bold">Juan A.</h6>
+                  <small class="text-warning"><i class="bi bi-star-fill"></i> <i class="bi bi-star-fill"></i> <i
+                      class="bi bi-star-fill"></i> <i class="bi bi-star-fill"></i> <i
+                      class="bi bi-star-fill"></i></small>
                 </div>
               </div>
-              <p class="mb-0 text-secondary">"El mejor ceviche de Piura. La atención es excelente y el ambiente muy familiar. ¡Volveré siempre!"</p>
+              <p class="mb-0 text-muted">"El mejor ceviche de Piura. La atención es excelente y el ambiente muy
+                familiar. ¡Volveré siempre!"</p>
             </div>
           </div>
           <div class="col-md-4">
@@ -303,11 +282,14 @@
               <div class="d-flex align-items-center gap-3 mb-3">
                 <div class="avatar-placeholder">MP</div>
                 <div>
-                  <h6 class="mb-0 text-white">María P.</h6>
-                  <small class="text-warning">★★★★★</small>
+                  <h6 class="mb-0 text-dark fw-bold">María P.</h6>
+                  <small class="text-warning"><i class="bi bi-star-fill"></i> <i class="bi bi-star-fill"></i> <i
+                      class="bi bi-star-fill"></i> <i class="bi bi-star-fill"></i> <i
+                      class="bi bi-star-fill"></i></small>
                 </div>
               </div>
-              <p class="mb-0 text-secondary">"Las parrillas son espectaculares. La sazón norteña se siente en cada plato. ¡100% recomendado!"</p>
+              <p class="mb-0 text-muted">"Las parrillas son espectaculares. La sazón norteña se siente en cada plato.
+                ¡100% recomendado!"</p>
             </div>
           </div>
           <div class="col-md-4">
@@ -315,51 +297,55 @@
               <div class="d-flex align-items-center gap-3 mb-3">
                 <div class="avatar-placeholder">CR</div>
                 <div>
-                  <h6 class="mb-0 text-white">Carlos R.</h6>
-                  <small class="text-warning">★★★★★</small>
+                  <h6 class="mb-0 text-dark fw-bold">Carlos R.</h6>
+                  <small class="text-warning"><i class="bi bi-star-fill"></i> <i class="bi bi-star-fill"></i> <i
+                      class="bi bi-star-fill"></i> <i class="bi bi-star-fill"></i> <i
+                      class="bi bi-star-fill"></i></small>
                 </div>
               </div>
-              <p class="mb-0 text-secondary">"El combo familiar es perfecto para compartir. Precios justos y calidad insuperable. ¡Excelente servicio!"</p>
+              <p class="mb-0 text-muted">"El combo familiar es perfecto para compartir. Precios justos y calidad
+                insuperable. ¡Excelente servicio!"</p>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- SECCIÓN 2: MENÚ (Franco) -->
-    <!-- ========================================== -->
-    <section id="menu" class="py-5 bg-white">
-      <div class="container py-4">
+    <section id="menu" class="py-5 bg-brand-dark position-relative">
+      <div class="container-fluid px-3 px-md-4 py-4" style="max-width: 1500px;">
         <div class="text-center mb-5">
-          <span class="badge bg-primary px-3 py-2 rounded-pill mb-2">Nuestra Carta</span>
-          <h2 class="display-5 fw-bold text-dark">Descubre Nuestro Menú</h2>
-          <p class="text-muted lead mx-auto" style="max-width: 600px;">
+          <span class="section-tag"><i class="bi bi-journal-richtext me-1"></i> Nuestra Carta</span>
+          <h2 class="display-5 fw-bold text-white">Descubre Nuestro <span class="text-accent">Menú</span></h2>
+          <p class="text-light text-opacity-75 lead mx-auto" style="max-width: 600px;">
             Disfruta de la mejor comida marina fresca y exquisitas parrillas con la verdadera sazón norteña.
           </p>
         </div>
 
-        <ul class="nav nav-pills justify-content-center mb-4 gap-2" id="menu-tabs" role="tablist">
+        <ul class="nav nav-pills justify-content-center mb-5 gap-2" id="menu-tabs" role="tablist">
           <li class="nav-item" role="presentation">
             <button class="nav-link active rounded-pill px-4" id="entradas-tab" data-bs-toggle="pill"
-              data-bs-target="#entradas" type="button" role="tab" aria-controls="entradas"
-              aria-selected="true">Entradas</button>
+              data-bs-target="#entradas" type="button" role="tab" aria-controls="entradas" aria-selected="true"><i
+                class="bi bi-egg-fried me-1"></i> Entradas</button>
           </li>
           <li class="nav-item" role="presentation">
             <button class="nav-link rounded-pill px-4" id="marinos-tab" data-bs-toggle="pill" data-bs-target="#marinos"
-              type="button" role="tab" aria-controls="marinos" aria-selected="false">Ceviches y Más</button>
+              type="button" role="tab" aria-controls="marinos" aria-selected="false"><i class="bi bi-water me-1"></i>
+              Ceviches y Más</button>
           </li>
           <li class="nav-item" role="presentation">
             <button class="nav-link rounded-pill px-4" id="combos-tab" data-bs-toggle="pill" data-bs-target="#combos"
-              type="button" role="tab" aria-controls="combos" aria-selected="false">Combos Familiares</button>
+              type="button" role="tab" aria-controls="combos" aria-selected="false"><i
+                class="bi bi-people-fill me-1"></i> Combos Familiares</button>
           </li>
           <li class="nav-item" role="presentation">
             <button class="nav-link rounded-pill px-4" id="parrillas-tab" data-bs-toggle="pill"
-              data-bs-target="#parrillas" type="button" role="tab" aria-controls="parrillas"
-              aria-selected="false">Jueves de Parrillas</button>
+              data-bs-target="#parrillas" type="button" role="tab" aria-controls="parrillas" aria-selected="false"><i
+                class="bi bi-fire me-1"></i> Jueves de Parrillas</button>
           </li>
           <li class="nav-item" role="presentation">
             <button class="nav-link rounded-pill px-4" id="bebidas-tab" data-bs-toggle="pill" data-bs-target="#bebidas"
-              type="button" role="tab" aria-controls="bebidas" aria-selected="false">Bebidas</button>
+              type="button" role="tab" aria-controls="bebidas" aria-selected="false"><i
+                class="bi bi-cup-straw me-1"></i> Bebidas</button>
           </li>
         </ul>
 
@@ -368,193 +354,312 @@
           <div class="tab-pane fade show active" id="entradas" role="tabpanel" aria-labelledby="entradas-tab"
             tabindex="0">
             <div class="row justify-content-center">
-              <div class="col-lg-8">
-                <div class="table-responsive shadow-sm rounded-4 border">
-                  <table class="table table-striped table-hover align-middle mb-0">
-                    <thead class="table-primary text-primary">
-                      <tr>
-                        <th scope="col" class="py-3 px-4">Gustitos y Entradas</th>
-                        <th scope="col" class="text-end py-3 px-4">Precio</th>
-                      </tr>
-                    </thead>
-                    <tbody class="border-top-0">
-                      <tr>
-                        <td class="px-4">
-                          <div class="d-flex align-items-center">
-                            <img src="img/LecheTigre.jpg" class="rounded me-3 d-none d-sm-block" style="width: 50px; height: 50px; object-fit: cover;" alt="Leche de tigre">
-                            <span>Leche de tigre clásico</span>
-                          </div>
-                        </td>
-                        <td class="text-end px-4 fw-semibold text-primary">S/ 4.00</td>
-                      </tr>
-                      <tr>
-                        <td class="px-4">Leche de tigre con chicharrón de pota <span
-                            class="text-muted small">(Pequeño)</span></td>
-                        <td class="text-end px-4 fw-semibold text-primary">S/ 5.00</td>
-                      </tr>
-                      <tr>
-                        <td class="px-4">Leche de tigre con chicharrón de pota <span
-                            class="text-muted small">(Grande)</span></td>
-                        <td class="text-end px-4 fw-semibold text-primary">S/ 7.00</td>
-                      </tr>
-                      <tr>
-                        <td class="px-4">
-                          <div class="d-flex align-items-center">
-                            <img src="img/PapaRellena.jpg" class="rounded me-3 d-none d-sm-block" style="width: 50px; height: 50px; object-fit: cover;" alt="Papa rellena">
-                            <span>Papa rellena</span>
-                          </div>
-                        </td>
-                        <td class="text-end px-4 fw-semibold text-primary">S/ 3.00</td>
-                      </tr>
-                      <tr>
-                        <td class="px-4">Papa rellena + ceviche de pota</td>
-                        <td class="text-end px-4 fw-semibold text-primary">S/ 5.00</td>
-                      </tr>
-                      <tr>
-                        <td class="px-4">Papa rellena + ceviche de pota + chicharrón de pota</td>
-                        <td class="text-end px-4 fw-semibold text-primary">S/ 6.00</td>
-                      </tr>
-                      <tr>
-                        <td class="px-4">Papa rellena + ceviche de filete o caballa</td>
-                        <td class="text-end px-4 fw-semibold text-primary">S/ 7.00</td>
-                      </tr>
-                      <tr>
-                        <td class="px-4">Papa rellena + ceviche de filete o caballa + chicharrón de pota</td>
-                        <td class="text-end px-4 fw-semibold text-primary">S/ 8.00</td>
-                      </tr>
-                    </tbody>
-                  </table>
+              <div class="col-xl-11">
+                <div class="row align-items-center justify-content-center g-4 g-lg-5 mb-3">
+                  <div class="col-lg-5 text-center">
+                    <img src="img/entradas.png" class="img-fluid menu-img-featured"
+                      alt="Entradas - El Huarique de Luis">
+                  </div>
+
+                  <div class="col-lg-7">
+                    <div
+                      class="table-responsive shadow rounded-4 overflow-hidden border border-secondary border-opacity-50">
+                      <table
+                        class="table table-dark table-bordered border-secondary border-opacity-50 table-hover align-middle mb-0">
+                        <thead class="table-dark text-white">
+                          <tr>
+                            <th scope="col" class="text-start py-3 px-4">Plato</th>
+                            <th scope="col" class="text-center py-3 px-4 w-25"><i
+                                class="bi bi-tag-fill text-accent me-1"></i>Precio</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td class="text-start px-4 text-light fw-medium">Leche de tigre clásico</td>
+                            <td class="text-center"><span
+                                class="badge bg-warning text-dark fw-bold px-3 py-2 rounded-pill">S/ 4.00</span></td>
+                          </tr>
+                          <tr>
+                            <td class="text-start px-4 text-light fw-medium">Leche de tigre con chicharrón de pota <span
+                                class="badge bg-secondary ms-2">Pequeño</span></td>
+                            <td class="text-center"><span
+                                class="badge bg-warning text-dark fw-bold px-3 py-2 rounded-pill">S/ 5.00</span></td>
+                          </tr>
+                          <tr>
+                            <td class="text-start px-4 text-light fw-medium">Leche de tigre con chicharrón de pota <span
+                                class="badge bg-warning text-dark ms-2">Grande</span></td>
+                            <td class="text-center"><span
+                                class="badge bg-warning text-dark fw-bold px-3 py-2 rounded-pill">S/ 7.00</span></td>
+                          </tr>
+                          <tr>
+                            <td class="text-start px-4 text-light fw-medium">Papa rellena</td>
+                            <td class="text-center"><span
+                                class="badge bg-warning text-dark fw-bold px-3 py-2 rounded-pill">S/ 3.00</span></td>
+                          </tr>
+                          <tr>
+                            <td class="text-start px-4 text-light fw-medium">Papa rellena + ceviche de pota</td>
+                            <td class="text-center"><span
+                                class="badge bg-warning text-dark fw-bold px-3 py-2 rounded-pill">S/ 5.00</span></td>
+                          </tr>
+                          <tr>
+                            <td class="text-start px-4 text-light fw-medium">Papa rellena + ceviche de pota + chicharrón
+                              de
+                              pota</td>
+                            <td class="text-center"><span
+                                class="badge bg-warning text-dark fw-bold px-3 py-2 rounded-pill">S/ 6.00</span></td>
+                          </tr>
+                          <tr>
+                            <td class="text-start px-4 text-light fw-medium">Papa rellena + ceviche de filete o caballa
+                            </td>
+                            <td class="text-center"><span
+                                class="badge bg-warning text-dark fw-bold px-3 py-2 rounded-pill">S/ 7.00</span></td>
+                          </tr>
+                          <tr>
+                            <td class="text-start px-4 text-light fw-medium">Papa rellena + ceviche de filete o caballa
+                              +
+                              chicharrón de pota</td>
+                            <td class="text-center"><span
+                                class="badge bg-warning text-dark fw-bold px-3 py-2 rounded-pill">S/ 8.00</span></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
           <div class="tab-pane fade" id="marinos" role="tabpanel" aria-labelledby="marinos-tab" tabindex="0">
-            <div class="row justify-content-center g-4">
-              <div class="col-lg-10">
+            <div class="row justify-content-center">
+              <div class="col-xl-11">
 
-                <h4 class="text-primary mb-3"><i class="bi bi-droplet-fill me-2"></i>Ceviches</h4>
-                <div class="table-responsive shadow-sm rounded-4 border mb-5">
-                  <table class="table table-bordered table-hover align-middle text-center mb-0">
-                    <thead class="table-light">
-                      <tr>
-                        <th scope="col" class="text-start py-3 px-4 w-40">Plato</th>
-                        <th scope="col" class="py-3 text-primary">Personal</th>
-                        <th scope="col" class="py-3 text-primary">Mediana</th>
-                        <th scope="col" class="py-3 text-primary">Grande</th>
-                      </tr>
-                    </thead>
-                    <tbody class="border-top-0">
-                      <tr>
-                        <td class="text-start px-4 fw-medium">Ceviche de pota</td>
-                        <td>S/ 10.00</td>
-                        <td>S/ 15.00</td>
-                        <td>S/ 20.00</td>
-                      </tr>
-                      <tr>
-                        <td class="text-start px-4 fw-medium">Ceviche de filete o caballa</td>
-                        <td>S/ 10.00</td>
-                        <td>S/ 15.00</td>
-                        <td>S/ 20.00</td>
-                      </tr>
-                      <tr>
-                        <td class="text-start px-4 fw-medium">
-                          <div class="d-flex align-items-center">
-                            <img src="img/CevicheMixto.jpg" class="rounded me-3 d-none d-sm-block" style="width: 50px; height: 50px; object-fit: cover;" alt="Ceviche mixto">
-                            <span>Ceviche mixto (filete, caballa, pota)</span>
-                          </div>
-                        </td>
-                        <td>S/ 11.00</td>
-                        <td>S/ 16.00</td>
-                        <td>S/ 21.00</td>
-                      </tr>
-                      <tr>
-                        <td class="text-start px-4 fw-medium">Ceviche (filete o caballa) + chicharrón de pota</td>
-                        <td>S/ 12.00</td>
-                        <td>S/ 17.00</td>
-                        <td>S/ 22.00</td>
-                      </tr>
-                    </tbody>
-                  </table>
+                <div class="row align-items-center justify-content-center g-4 g-lg-5 mb-5 pb-3">
+                  <div class="col-lg-5 text-center">
+                    <img src="img/ceviches.png" class="img-fluid menu-img-featured"
+                      alt="Ceviches - El Huarique de Luis">
+                  </div>
+                  <div class="col-lg-7">
+                    <h4 class="text-white fw-bold mb-3"><i class="bi bi-water text-accent me-2"></i>Ceviches</h4>
+                    <div
+                      class="table-responsive shadow rounded-4 overflow-hidden border border-secondary border-opacity-50">
+                      <table
+                        class="table table-dark table-bordered border-secondary border-opacity-50 table-hover align-middle mb-0">
+                        <thead class="table-dark text-white">
+                          <tr>
+                            <th scope="col" class="text-start py-3 px-2 px-md-4">Plato</th>
+                            <th scope="col" class="text-center py-3 px-1 px-md-2"><i
+                                class="bi bi-person-fill text-accent me-1 d-none d-sm-inline"></i>Personal</th>
+                            <th scope="col" class="text-center py-3 px-1 px-md-2"><i
+                                class="bi bi-people-fill text-accent me-1 d-none d-sm-inline"></i>Mediana</th>
+                            <th scope="col" class="text-center py-3 px-1 px-md-2"><i
+                                class="bi bi-award-fill text-accent me-1 d-none d-sm-inline"></i>Grande</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td class="text-start px-2 px-md-4 text-light fw-medium">Ceviche de pota</td>
+                            <td class="text-center px-1"><span
+                                class="badge bg-warning text-dark fw-bold px-2 px-md-3 py-1 py-md-2 rounded-pill">S/
+                                10.00</span></td>
+                            <td class="text-center px-1"><span
+                                class="badge bg-warning text-dark fw-bold px-2 px-md-3 py-1 py-md-2 rounded-pill">S/
+                                15.00</span></td>
+                            <td class="text-center px-1"><span
+                                class="badge bg-warning text-dark fw-bold px-2 px-md-3 py-1 py-md-2 rounded-pill">S/
+                                20.00</span></td>
+                          </tr>
+                          <tr>
+                            <td class="text-start px-2 px-md-4 text-light fw-medium">Ceviche de filete o caballa</td>
+                            <td class="text-center px-1"><span
+                                class="badge bg-warning text-dark fw-bold px-2 px-md-3 py-1 py-md-2 rounded-pill">S/
+                                10.00</span></td>
+                            <td class="text-center px-1"><span
+                                class="badge bg-warning text-dark fw-bold px-2 px-md-3 py-1 py-md-2 rounded-pill">S/
+                                15.00</span></td>
+                            <td class="text-center px-1"><span
+                                class="badge bg-warning text-dark fw-bold px-2 px-md-3 py-1 py-md-2 rounded-pill">S/
+                                20.00</span></td>
+                          </tr>
+                          <tr>
+                            <td class="text-start px-2 px-md-4 text-light fw-medium">Ceviche mixto (filete, caballa,
+                              pota)</td>
+                            <td class="text-center px-1"><span
+                                class="badge bg-warning text-dark fw-bold px-2 px-md-3 py-1 py-md-2 rounded-pill">S/
+                                11.00</span></td>
+                            <td class="text-center px-1"><span
+                                class="badge bg-warning text-dark fw-bold px-2 px-md-3 py-1 py-md-2 rounded-pill">S/
+                                16.00</span></td>
+                            <td class="text-center px-1"><span
+                                class="badge bg-warning text-dark fw-bold px-2 px-md-3 py-1 py-md-2 rounded-pill">S/
+                                21.00</span></td>
+                          </tr>
+                          <tr>
+                            <td class="text-start px-2 px-md-4 text-light fw-medium">Ceviche (filete o caballa) +
+                              chicharrón de
+                              pota</td>
+                            <td class="text-center px-1"><span
+                                class="badge bg-warning text-dark fw-bold px-2 px-md-3 py-1 py-md-2 rounded-pill">S/
+                                12.00</span></td>
+                            <td class="text-center px-1"><span
+                                class="badge bg-warning text-dark fw-bold px-2 px-md-3 py-1 py-md-2 rounded-pill">S/
+                                17.00</span></td>
+                            <td class="text-center px-1"><span
+                                class="badge bg-warning text-dark fw-bold px-2 px-md-3 py-1 py-md-2 rounded-pill">S/
+                                22.00</span></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
                 </div>
 
-                <h4 class="text-primary mb-3"><i class="bi bi-fire me-2"></i>Chicharrones</h4>
-                <div class="table-responsive shadow-sm rounded-4 border mb-5">
-                  <table class="table table-bordered table-hover align-middle text-center mb-0">
-                    <thead class="table-light">
-                      <tr>
-                        <th scope="col" class="text-start py-3 px-4 w-40">Plato</th>
-                        <th scope="col" class="py-3 text-primary">Personal</th>
-                        <th scope="col" class="py-3 text-primary">Mediana</th>
-                        <th scope="col" class="py-3 text-primary">Grande</th>
-                      </tr>
-                    </thead>
-                    <tbody class="border-top-0">
-                      <tr>
-                        <td class="text-start px-4 fw-medium">Chicharrón de pota</td>
-                        <td>S/ 12.00</td>
-                        <td>S/ 17.00</td>
-                        <td>S/ 22.00</td>
-                      </tr>
-                      <tr>
-                        <td class="text-start px-4 fw-medium">Chicharrón de pescado</td>
-                        <td>S/ 16.00</td>
-                        <td>S/ 20.00</td>
-                        <td>S/ 25.00</td>
-                      </tr>
-                      <tr>
-                        <td class="text-start px-4 fw-medium">
-                          <div class="d-flex align-items-center">
-                            <img src="img/CicharronMixto.jpg" class="rounded me-3 d-none d-sm-block" style="width: 50px; height: 50px; object-fit: cover;" alt="Chicharrón mixto">
-                            <span>Chicharrón mixto</span>
-                          </div>
-                        </td>
-                        <td>S/ 17.00</td>
-                        <td>S/ 22.00</td>
-                        <td>S/ 27.00</td>
-                      </tr>
-                    </tbody>
-                  </table>
+                <div class="row align-items-center justify-content-center g-4 g-lg-5 mb-5 pb-3">
+                  <div class="col-lg-7 order-2 order-lg-1">
+                    <h4 class="text-white fw-bold mb-3"><i class="bi bi-fire text-accent me-2"></i>Chicharrones</h4>
+                    <div
+                      class="table-responsive shadow rounded-4 overflow-hidden border border-secondary border-opacity-50">
+                      <table
+                        class="table table-dark table-bordered border-secondary border-opacity-50 table-hover align-middle mb-0">
+                        <thead class="table-dark text-white">
+                          <tr>
+                            <th scope="col" class="text-start py-3 px-2 px-md-4">Plato</th>
+                            <th scope="col" class="text-center py-3 px-1 px-md-2"><i
+                                class="bi bi-person-fill text-accent me-1 d-none d-sm-inline"></i>Personal</th>
+                            <th scope="col" class="text-center py-3 px-1 px-md-2"><i
+                                class="bi bi-people-fill text-accent me-1 d-none d-sm-inline"></i>Mediana</th>
+                            <th scope="col" class="text-center py-3 px-1 px-md-2"><i
+                                class="bi bi-award-fill text-accent me-1 d-none d-sm-inline"></i>Grande</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td class="text-start px-2 px-md-4 text-light fw-medium">Chicharrón de pota</td>
+                            <td class="text-center px-1"><span
+                                class="badge bg-warning text-dark fw-bold px-2 px-md-3 py-1 py-md-2 rounded-pill">S/
+                                12.00</span></td>
+                            <td class="text-center px-1"><span
+                                class="badge bg-warning text-dark fw-bold px-2 px-md-3 py-1 py-md-2 rounded-pill">S/
+                                17.00</span></td>
+                            <td class="text-center px-1"><span
+                                class="badge bg-warning text-dark fw-bold px-2 px-md-3 py-1 py-md-2 rounded-pill">S/
+                                22.00</span></td>
+                          </tr>
+                          <tr>
+                            <td class="text-start px-2 px-md-4 text-light fw-medium">Chicharrón de pescado</td>
+                            <td class="text-center px-1"><span
+                                class="badge bg-warning text-dark fw-bold px-2 px-md-3 py-1 py-md-2 rounded-pill">S/
+                                16.00</span></td>
+                            <td class="text-center px-1"><span
+                                class="badge bg-warning text-dark fw-bold px-2 px-md-3 py-1 py-md-2 rounded-pill">S/
+                                20.00</span></td>
+                            <td class="text-center px-1"><span
+                                class="badge bg-warning text-dark fw-bold px-2 px-md-3 py-1 py-md-2 rounded-pill">S/
+                                25.00</span></td>
+                          </tr>
+                          <tr>
+                            <td class="text-start px-2 px-md-4 text-light fw-medium">Chicharrón mixto</td>
+                            <td class="text-center px-1"><span
+                                class="badge bg-warning text-dark fw-bold px-2 px-md-3 py-1 py-md-2 rounded-pill">S/
+                                17.00</span></td>
+                            <td class="text-center px-1"><span
+                                class="badge bg-warning text-dark fw-bold px-2 px-md-3 py-1 py-md-2 rounded-pill">S/
+                                22.00</span></td>
+                            <td class="text-center px-1"><span
+                                class="badge bg-warning text-dark fw-bold px-2 px-md-3 py-1 py-md-2 rounded-pill">S/
+                                27.00</span></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <div class="col-lg-5 text-center order-1 order-lg-2">
+                    <img src="img/chicharrones.png" class="img-fluid menu-img-featured"
+                      alt="Chicharrones - El Huarique de Luis">
+                  </div>
                 </div>
 
-                <h4 class="text-primary mb-3"><i class="bi bi-cup-hot-fill me-2"></i>Dúos y Tríos</h4>
-                <div class="table-responsive shadow-sm rounded-4 border mb-3">
-                  <table class="table table-bordered table-hover align-middle text-center mb-0">
-                    <thead class="table-light">
-                      <tr>
-                        <th scope="col" class="text-start py-3 px-4 w-40">Plato</th>
-                        <th scope="col" class="py-3 text-primary">Personal</th>
-                        <th scope="col" class="py-3 text-primary">Mediana</th>
-                        <th scope="col" class="py-3 text-primary">Grande</th>
-                      </tr>
-                    </thead>
-                    <tbody class="border-top-0">
-                      <tr>
-                        <td class="text-start px-4 fw-medium">Dúo: Arroz con mariscos + ceviche</td>
-                        <td>S/ 12.00</td>
-                        <td>S/ 17.00</td>
-                        <td>S/ 22.00</td>
-                      </tr>
-                      <tr>
-                        <td class="text-start px-4 fw-medium">Dúo: Arroz con mariscos + chicharrón de pota</td>
-                        <td>S/ 12.00</td>
-                        <td>S/ 17.00</td>
-                        <td>S/ 22.00</td>
-                      </tr>
-                      <tr>
-                        <td class="text-start px-4 fw-medium">Trío: Arroz con mariscos + chicharrón pota + ceviche</td>
-                        <td>S/ 12.00</td>
-                        <td>S/ 17.00</td>
-                        <td>S/ 22.00</td>
-                      </tr>
-                      <tr>
-                        <td class="text-start px-4 fw-medium">Trío: Arroz con mariscos + ceviche + papa rellena</td>
-                        <td>S/ 13.00</td>
-                        <td>S/ 18.00</td>
-                        <td>-</td>
-                      </tr>
-                    </tbody>
-                  </table>
+                <div class="row align-items-center justify-content-center g-4 g-lg-5 mb-3">
+                  <div class="col-lg-5 text-center">
+                    <img src="img/triosyduos.png" class="img-fluid menu-img-featured"
+                      alt="Dúos y Tríos - El Huarique de Luis">
+                  </div>
+                  <div class="col-lg-7">
+                    <h4 class="text-white fw-bold mb-3"><i class="bi bi-cup-hot-fill text-accent me-2"></i>Dúos y Tríos
+                    </h4>
+                    <div
+                      class="table-responsive shadow rounded-4 overflow-hidden border border-secondary border-opacity-50 mb-3">
+                      <table
+                        class="table table-dark table-bordered border-secondary border-opacity-50 table-hover align-middle mb-0">
+                        <thead class="table-dark text-white">
+                          <tr>
+                            <th scope="col" class="text-start py-3 px-2 px-md-4">Plato</th>
+                            <th scope="col" class="text-center py-3 px-1 px-md-2"><i
+                                class="bi bi-person-fill text-accent me-1 d-none d-sm-inline"></i>Personal</th>
+                            <th scope="col" class="text-center py-3 px-1 px-md-2"><i
+                                class="bi bi-people-fill text-accent me-1 d-none d-sm-inline"></i>Mediana</th>
+                            <th scope="col" class="text-center py-3 px-1 px-md-2"><i
+                                class="bi bi-award-fill text-accent me-1 d-none d-sm-inline"></i>Grande</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td class="text-start px-2 px-md-4 text-light fw-medium">Dúo: Arroz con mariscos + ceviche
+                            </td>
+                            <td class="text-center px-1"><span
+                                class="badge bg-warning text-dark fw-bold px-2 px-md-3 py-1 py-md-2 rounded-pill">S/
+                                12.00</span></td>
+                            <td class="text-center px-1"><span
+                                class="badge bg-warning text-dark fw-bold px-2 px-md-3 py-1 py-md-2 rounded-pill">S/
+                                17.00</span></td>
+                            <td class="text-center px-1"><span
+                                class="badge bg-warning text-dark fw-bold px-2 px-md-3 py-1 py-md-2 rounded-pill">S/
+                                22.00</span></td>
+                          </tr>
+                          <tr>
+                            <td class="text-start px-2 px-md-4 text-light fw-medium">Dúo: Arroz con mariscos +
+                              chicharrón de
+                              pota</td>
+                            <td class="text-center px-1"><span
+                                class="badge bg-warning text-dark fw-bold px-2 px-md-3 py-1 py-md-2 rounded-pill">S/
+                                12.00</span></td>
+                            <td class="text-center px-1"><span
+                                class="badge bg-warning text-dark fw-bold px-2 px-md-3 py-1 py-md-2 rounded-pill">S/
+                                17.00</span></td>
+                            <td class="text-center px-1"><span
+                                class="badge bg-warning text-dark fw-bold px-2 px-md-3 py-1 py-md-2 rounded-pill">S/
+                                22.00</span></td>
+                          </tr>
+                          <tr>
+                            <td class="text-start px-2 px-md-4 text-light fw-medium">Trío: Arroz con mariscos +
+                              chicharrón pota
+                              + ceviche</td>
+                            <td class="text-center px-1"><span
+                                class="badge bg-warning text-dark fw-bold px-2 px-md-3 py-1 py-md-2 rounded-pill">S/
+                                12.00</span></td>
+                            <td class="text-center px-1"><span
+                                class="badge bg-warning text-dark fw-bold px-2 px-md-3 py-1 py-md-2 rounded-pill">S/
+                                17.00</span></td>
+                            <td class="text-center px-1"><span
+                                class="badge bg-warning text-dark fw-bold px-2 px-md-3 py-1 py-md-2 rounded-pill">S/
+                                22.00</span></td>
+                          </tr>
+                          <tr>
+                            <td class="text-start px-2 px-md-4 text-light fw-medium">Trío: Arroz con mariscos + ceviche
+                              + papa
+                              rellena</td>
+                            <td class="text-center px-1"><span
+                                class="badge bg-warning text-dark fw-bold px-2 px-md-3 py-1 py-md-2 rounded-pill">S/
+                                13.00</span></td>
+                            <td class="text-center px-1"><span
+                                class="badge bg-warning text-dark fw-bold px-2 px-md-3 py-1 py-md-2 rounded-pill">S/
+                                18.00</span></td>
+                            <td class="text-center px-1"><span class="text-muted">-</span></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
                 </div>
 
               </div>
@@ -567,47 +672,65 @@
                 <div class="row g-4">
 
                   <div class="col-md-6">
-                    <div class="card h-100 shadow-sm border-0 bg-light rounded-4 overflow-hidden">
-                      <img src="img/ComboChihuan1.jpg" class="card-img-top" style="height: 200px; object-fit: cover;" alt="Combo Chihuan 1">
+                    <div class="card h-100 shadow border border-white border-opacity-10 rounded-4 overflow-hidden"
+                      style="background: #1a1a2e;">
+                      <img src="img/ComboChihuan1.jpg" class="card-img-top" style="height: 200px; object-fit: cover;"
+                        alt="Combo Chihuan 1">
                       <div class="card-body p-4 text-center d-flex flex-column">
                         <div><span class="badge bg-primary mb-3">Combo Chihuan 1</span></div>
-                        <p class="card-text mb-4">Papa rellena + Ceviche de pota + Chicharrón + Leche de tigre + Gaseosa
+                        <p class="card-text text-light text-opacity-75 mb-4">Papa rellena + Ceviche de pota + Chicharrón
+                          + Leche de tigre + Gaseosa
                           365ml</p>
-                        <h4 class="text-primary fw-bold mt-auto">S/ 11.00</h4>
+                        <h4 class="text-accent fw-bold mt-auto"><span
+                            class="badge bg-warning text-dark px-3 py-2 rounded-pill">S/ 11.00</span></h4>
                       </div>
                     </div>
                   </div>
 
                   <div class="col-md-6">
-                    <div class="card h-100 shadow-sm border-0 bg-light rounded-4">
+                    <div class="card h-100 shadow border border-white border-opacity-10 rounded-4 overflow-hidden"
+                      style="background: #1a1a2e;">
+                      <img src="img/Combo_Chihuan2.png" class="card-img-top" style="height: 200px; object-fit: cover;"
+                        alt="Combo Chihuan 2">
                       <div class="card-body p-4 text-center d-flex flex-column">
                         <div><span class="badge bg-primary mb-3">Combo Chihuan 2</span></div>
-                        <p class="card-text mb-4">Papa rellena + Ceviche de filete + Chicharrón + Leche de tigre +
+                        <p class="card-text text-light text-opacity-75 mb-4">Papa rellena + Ceviche de filete +
+                          Chicharrón + Leche de tigre +
                           Gaseosa 355ml</p>
-                        <h4 class="text-primary fw-bold mt-auto">S/ 13.00</h4>
+                        <h4 class="text-accent fw-bold mt-auto"><span
+                            class="badge bg-warning text-dark px-3 py-2 rounded-pill">S/ 13.00</span></h4>
                       </div>
                     </div>
                   </div>
 
                   <div class="col-md-6">
-                    <div class="card h-100 shadow-sm border-0 bg-light rounded-4 overflow-hidden">
-                      <img src="img/ComboFamiliar1.jpg" class="card-img-top" style="height: 200px; object-fit: cover;" alt="Combo Familiar 1">
+                    <div class="card h-100 shadow border border-white border-opacity-10 rounded-4 overflow-hidden"
+                      style="background: #1a1a2e;">
+                      <img src="img/ComboFamiliar1.jpg" class="card-img-top" style="height: 200px; object-fit: cover;"
+                        alt="Combo Familiar 1">
                       <div class="card-body p-4 text-center d-flex flex-column">
                         <div><span class="badge bg-success mb-3">Combo Familiar 1</span></div>
-                        <p class="card-text mb-4">Un trío combinado grande: Arroz con marisco + Chicharrón de pota +
+                        <p class="card-text text-light text-opacity-75 mb-4">Un trío combinado grande: Arroz con marisco
+                          + Chicharrón de pota +
                           Ceviche.<br>Incluye Gaseosa 1 1/2 litros</p>
-                        <h4 class="text-primary fw-bold mt-auto">S/ 27.00</h4>
+                        <h4 class="text-accent fw-bold mt-auto"><span
+                            class="badge bg-warning text-dark px-3 py-2 rounded-pill">S/ 27.00</span></h4>
                       </div>
                     </div>
                   </div>
 
                   <div class="col-md-6">
-                    <div class="card h-100 shadow-sm border-0 bg-light rounded-4">
+                    <div class="card h-100 shadow border border-white border-opacity-10 rounded-4 overflow-hidden"
+                      style="background: #1a1a2e;">
+                      <img src="img/Combo_Familiar2.png" class="card-img-top" style="height: 200px; object-fit: cover;"
+                        alt="Combo Familiar 2">
                       <div class="card-body p-4 text-center d-flex flex-column">
                         <div><span class="badge bg-success mb-3">Combo Familiar 2</span></div>
-                        <p class="card-text mb-4">Dúo grande: Ceviche de filete o caballa + Chicharrón de
+                        <p class="card-text text-light text-opacity-75 mb-4">Dúo grande: Ceviche de filete o caballa +
+                          Chicharrón de
                           pota.<br>Incluye Gaseosa 1 1/2 litros</p>
-                        <h4 class="text-primary fw-bold mt-auto">S/ 27.00</h4>
+                        <h4 class="text-accent fw-bold mt-auto"><span
+                            class="badge bg-warning text-dark px-3 py-2 rounded-pill">S/ 27.00</span></h4>
                       </div>
                     </div>
                   </div>
@@ -619,62 +742,100 @@
 
           <div class="tab-pane fade" id="parrillas" role="tabpanel" aria-labelledby="parrillas-tab" tabindex="0">
             <div class="row justify-content-center">
-              <div class="col-lg-8 text-center">
-                <div class="alert alert-warning border-warning border-2 rounded-4 shadow-sm" role="alert">
-                  <h4 class="alert-heading fw-bold mb-1"><i class="bi bi-star-fill text-warning me-2"></i>Promoción
-                    Jueves de Parrillas</h4>
-                  <p class="mb-0">¡Aprovecha los jueves de promoción! Precio único en todos nuestros platos a la
-                    parrilla.</p>
-                  <p class="mb-0 fw-bold mt-2 text-danger fs-5">Precio único: S/ 10.00</p>
-                  <hr>
-                  <p class="mb-0 small"><i class="bi bi-bicycle me-1"></i>Ahora contamos con delivery (975-519-075).</p>
+              <div class="col-xl-11">
+
+                <div class="row justify-content-center mb-4">
+                  <div class="col-lg-10 text-center">
+                    <div
+                      class="card bg-dark bg-opacity-50 border border-warning border-opacity-25 rounded-4 shadow-sm p-4 text-center mb-0">
+                      <h4 class="text-warning fw-bold mb-2"><i class="bi bi-fire text-warning me-2"></i>Promoción Jueves
+                        de Parrillas</h4>
+                      <p class="text-light text-opacity-75 mb-2">¡Aprovecha los jueves de promoción! Precio único en
+                        todos nuestros platos a la parrilla.</p>
+                      <div class="my-2">
+                        <span class="badge bg-warning text-dark fw-bold px-4 py-2 rounded-pill fs-6">Precio único: S/
+                          10.00</span>
+                      </div>
+                      <hr class="border-secondary border-opacity-25 my-3">
+                      <p class="text-light text-opacity-50 small mb-0"><i
+                          class="bi bi-bicycle text-warning me-1"></i>Ahora contamos con delivery (975-519-075).</p>
+                    </div>
+                  </div>
                 </div>
 
-                <div class="table-responsive shadow-sm rounded-4 border mt-4">
-                  <table class="table table-striped table-hover align-middle mb-0">
-                    <tbody class="border-top-0">
-                      <tr>
-                        <td class="px-4 py-3 fw-medium">
-                          <div class="d-flex align-items-center">
-                            <img src="img/Anticuchos.jpg" class="rounded me-3 d-none d-sm-block" style="width: 50px; height: 50px; object-fit: cover;" alt="Anticuchos">
-                            <span>2 palos de anticuchos</span>
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td class="px-4 py-3 fw-medium">2 palos de brochetas</td>
-                      </tr>
-                      <tr>
-                        <td class="px-4 py-3 fw-medium">
-                          <div class="d-flex align-items-center">
-                            <img src="img/ParrillaMixta.jpg" class="rounded me-3 d-none d-sm-block" style="width: 50px; height: 50px; object-fit: cover;" alt="Parrilla Mixta">
-                            <span>Mixta (1 anticucho y 1 brocheta)</span>
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td class="px-4 py-3 fw-medium">Mollejitas</td>
-                      </tr>
-                      <tr>
-                        <td class="px-4 py-3 fw-medium">Pancitas</td>
-                      </tr>
-                      <tr>
-                        <td class="px-4 py-3 fw-medium">Mixta (mollejitas y pancitas)</td>
-                      </tr>
-                      <tr>
-                        <td class="px-4 py-3 fw-medium">Pollo a la parrilla</td>
-                      </tr>
-                      <tr>
-                        <td class="px-4 py-3 fw-medium">Chuleta de res</td>
-                      </tr>
-                      <tr>
-                        <td class="px-4 py-3 fw-medium">Chuleta de chancho</td>
-                      </tr>
-                      <tr>
-                        <td class="px-4 py-3 fw-medium">Mostritos</td>
-                      </tr>
-                    </tbody>
-                  </table>
+                <div class="row align-items-center justify-content-center g-4 g-lg-5 mb-3">
+                  <div class="col-lg-7 order-2 order-lg-1">
+                    <div
+                      class="table-responsive shadow rounded-4 overflow-hidden border border-secondary border-opacity-50 text-start">
+                      <table
+                        class="table table-dark table-bordered border-secondary border-opacity-50 table-hover align-middle mb-0">
+                        <thead class="table-dark text-white">
+                          <tr>
+                            <th scope="col" class="text-start py-3 px-4">Plato a la Parrilla</th>
+                            <th scope="col" class="text-center py-3 px-4 w-25"><i
+                                class="bi bi-tag-fill text-accent me-1"></i>Precio (Jueves)</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td class="text-start px-4 text-light fw-medium">2 palos de anticuchos</td>
+                            <td class="text-center"><span
+                                class="badge bg-warning text-dark fw-bold px-3 py-2 rounded-pill">S/ 10.00</span></td>
+                          </tr>
+                          <tr>
+                            <td class="text-start px-4 text-light fw-medium">2 palos de brochetas</td>
+                            <td class="text-center"><span
+                                class="badge bg-warning text-dark fw-bold px-3 py-2 rounded-pill">S/ 10.00</span></td>
+                          </tr>
+                          <tr>
+                            <td class="text-start px-4 text-light fw-medium">Mixta (1 anticucho y 1 brocheta)</td>
+                            <td class="text-center"><span
+                                class="badge bg-warning text-dark fw-bold px-3 py-2 rounded-pill">S/ 10.00</span></td>
+                          </tr>
+                          <tr>
+                            <td class="text-start px-4 text-light fw-medium">Mollejitas</td>
+                            <td class="text-center"><span
+                                class="badge bg-warning text-dark fw-bold px-3 py-2 rounded-pill">S/ 10.00</span></td>
+                          </tr>
+                          <tr>
+                            <td class="text-start px-4 text-light fw-medium">Pancitas</td>
+                            <td class="text-center"><span
+                                class="badge bg-warning text-dark fw-bold px-3 py-2 rounded-pill">S/ 10.00</span></td>
+                          </tr>
+                          <tr>
+                            <td class="text-start px-4 text-light fw-medium">Mixta (mollejitas y pancitas)</td>
+                            <td class="text-center"><span
+                                class="badge bg-warning text-dark fw-bold px-3 py-2 rounded-pill">S/ 10.00</span></td>
+                          </tr>
+                          <tr>
+                            <td class="text-start px-4 text-light fw-medium">Pollo a la parrilla</td>
+                            <td class="text-center"><span
+                                class="badge bg-warning text-dark fw-bold px-3 py-2 rounded-pill">S/ 10.00</span></td>
+                          </tr>
+                          <tr>
+                            <td class="text-start px-4 text-light fw-medium">Chuleta de res</td>
+                            <td class="text-center"><span
+                                class="badge bg-warning text-dark fw-bold px-3 py-2 rounded-pill">S/ 10.00</span></td>
+                          </tr>
+                          <tr>
+                            <td class="text-start px-4 text-light fw-medium">Chuleta de chancho</td>
+                            <td class="text-center"><span
+                                class="badge bg-warning text-dark fw-bold px-3 py-2 rounded-pill">S/ 10.00</span></td>
+                          </tr>
+                          <tr>
+                            <td class="text-start px-4 text-light fw-medium">Mostritos</td>
+                            <td class="text-center"><span
+                                class="badge bg-warning text-dark fw-bold px-3 py-2 rounded-pill">S/ 10.00</span></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-5 text-center order-1 order-lg-2">
+                    <img src="img/parrillas.png" class="img-fluid menu-img-featured menu-img-lg"
+                      alt="Jueves de Parrillas - El Huarique de Luis">
+                  </div>
                 </div>
               </div>
             </div>
@@ -682,153 +843,176 @@
 
           <div class="tab-pane fade" id="bebidas" role="tabpanel" aria-labelledby="bebidas-tab" tabindex="0">
             <div class="row justify-content-center">
-              <div class="col-lg-8">
-                <div class="table-responsive shadow-sm rounded-4 border">
-                  <table class="table table-sm table-striped table-hover align-middle mb-0">
-                    <thead class="table-info text-dark">
-                      <tr>
-                        <th scope="col" class="py-3 px-4">Bebidas y Refrescos</th>
-                        <th scope="col" class="text-end py-3 px-4">Precio</th>
-                      </tr>
-                    </thead>
-                    <tbody class="border-top-0">
-                      <tr>
-                        <td class="px-4 py-2">Vaso de cebada</td>
-                        <td class="text-end px-4 py-2 fw-semibold text-primary">S/ 1.50</td>
-                      </tr>
-                      <tr>
-                        <td class="px-4 py-2">Jarra de cebada 1 1/2 Litros</td>
-                        <td class="text-end px-4 py-2 fw-semibold text-primary">S/ 6.00</td>
-                      </tr>
-                      <tr>
-                        <td class="px-4 py-2">Vaso de chicha morada</td>
-                        <td class="text-end px-4 py-2 fw-semibold text-primary">S/ 2.00</td>
-                      </tr>
-                      <tr>
-                        <td class="px-4 py-2">
-                          <div class="d-flex align-items-center">
-                            <img src="img/ChichaMorada.jpg" class="rounded me-3 d-none d-sm-block" style="width: 50px; height: 50px; object-fit: cover;" alt="Chicha Morada">
-                            <span>Jarra de chicha morada 1 1/2 Litros</span>
-                          </div>
-                        </td>
-                        <td class="text-end px-4 py-2 fw-semibold text-primary">S/ 8.00</td>
-                      </tr>
-                      <tr>
-                        <td class="px-4 py-2">Gaseosa 355 ml</td>
-                        <td class="text-end px-4 py-2 fw-semibold text-primary">S/ 1.50</td>
-                      </tr>
-                      <tr>
-                        <td class="px-4 py-2">Gaseosa 600 ml</td>
-                        <td class="text-end px-4 py-2 fw-semibold text-primary">S/ 3.50</td>
-                      </tr>
-                      <tr>
-                        <td class="px-4 py-2">Gaseosa 1 1/2 Litros</td>
-                        <td class="text-end px-4 py-2 fw-semibold text-primary">S/ 6.50</td>
-                      </tr>
-                      <tr>
-                        <td class="px-4 py-2">Agua mineral</td>
-                        <td class="text-end px-4 py-2 fw-semibold text-primary">S/ 2.50</td>
-                      </tr>
-                      <tr>
-                        <td class="px-4 py-2">Cerveza Cristal personal</td>
-                        <td class="text-end px-4 py-2 fw-semibold text-primary">S/ 4.50</td>
-                      </tr>
-                      <tr>
-                        <td class="px-4 py-2">Cerveza Pilsen personal</td>
-                        <td class="text-end px-4 py-2 fw-semibold text-primary">S/ 5.50</td>
-                      </tr>
-                      <tr>
-                        <td class="px-4 py-2">Cusqueña trigo personal</td>
-                        <td class="text-end px-4 py-2 fw-semibold text-primary">S/ 6.50</td>
-                      </tr>
-                      <tr>
-                        <td class="px-4 py-2">Cusqueña negra personal</td>
-                        <td class="text-end px-4 py-2 fw-semibold text-primary">S/ 6.50</td>
-                      </tr>
-                      </tbody>
-                      </table>
-                      </div>
-                      </div>
-                      </div>
-                      </div>
-                      
-                      </div>
-                      </div>
-                      </section>
-                      
-                      <!-- ========================================== -->
-                      <section id="sedes" class="py-5 bg-light">
-                        <div class="container py-4">
-                          <div class="text-center mb-5">
-                            <span class="badge bg-primary px-3 py-2 rounded-pill mb-2">Nuestras Sedes</span>
-                            <h2 class="display-5 fw-bold text-dark">Visítanos en Piura y Castilla</h2>
-                          </div>
-                          <div class="row g-4 justify-content-center">
-                      
-                            <div class="col-lg-5 col-md-6">
-                              <div class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden">
-                                <iframe
-                                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3973.3285676777273!2d-80.6216994!3d-5.2109611!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x904a110024e7a311%3A0x436308ccddfeaa06!2sCevicheria%20El%20Huarique%20D%22Luis!5e0!3m2!1ses-419!2spe!4v1787975950790!5m2!1ses-419!2spe"
-                                  width="100%" height="220" style="border:0;" allowfullscreen="" loading="lazy"
-                                  referrerpolicy="strict-origin-when-cross-origin"></iframe>
-                                <div class="card-body p-4">
-                                  <h5 class="card-title text-primary fw-bold"><i class="bi bi-geo-alt-fill text-danger me-1"></i> Sede
-                                    Castilla</h5>
-                                  <p class="card-text mb-1"><i class="bi bi-signpost-2 me-2"></i>Av. Progreso 1213, Castilla - Piura</p>
-                                  <p class="card-text mb-1"><i class="bi bi-clock me-2"></i>Lun a Dom: 10:00 AM - 6:00 PM</p>
-                                  <p class="card-text mb-0"><i class="bi bi-telephone me-2"></i>975 519 075</p>
-                                </div>
-                              </div>
-                            </div>
-                      
-                            <div class="col-lg-5 col-md-6">
-                              <div class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden">
-                                <iframe
-                                  src="https://www.google.com/maps/embed?pb=!3m2!1ses-419!2spe!4v1787974775129!5m2!1ses-419!2spe!6m8!1m7!1so3EE8Fr1VvhnVT6F37vHuQ!2m2!1d-5.197739680636505!2d-80.62155744139031!3f70.51323947825718!4f-7.432487805631439!5f1.6715115246599885"
-                                  width="100%" height="220" style="border:0;" allowfullscreen="" loading="lazy"
-                                  referrerpolicy="strict-origin-when-cross-origin"></iframe>
-                                <div class="card-body p-4">
-                                  <h5 class="card-title text-primary fw-bold"><i class="bi bi-geo-alt-fill text-danger me-1"></i> Sede Ramón
-                                    Castilla</h5>
-                                  <p class="card-text mb-1"><i class="bi bi-signpost-2 me-2"></i>Av. Ramón Castilla 202, Castilla - Piura</p>
-                                  <p class="card-text mb-1"><i class="bi bi-clock me-2"></i>Lun a Dom: 10:00 AM - 6:00 PM</p>
-                                  <p class="card-text mb-0"><i class="bi bi-telephone me-2"></i>975 519 075</p>
-                                </div>
-                              </div>
-                            </div>
-                      
-                          </div>
-                        </div>
-                      </section>
+              <div class="col-xl-11">
+                <div class="row align-items-center justify-content-center g-4 g-lg-5 mb-3">
+                  <div class="col-lg-5 text-center">
+                    <img src="img/bebidas.png" class="img-fluid menu-img-featured menu-img-lg"
+                      alt="Bebidas - El Huarique de Luis">
+                  </div>
 
-    <!-- SECCIÓN 4: RESERVAS (Edu) -->
-    <!-- ========================================== -->
-    <section id="reservas" class="py-5 bg-white">
+                  <div class="col-lg-7">
+                    <div
+                      class="table-responsive shadow rounded-4 overflow-hidden border border-secondary border-opacity-50">
+                      <table
+                        class="table table-dark table-bordered border-secondary border-opacity-50 table-hover align-middle mb-0">
+                        <thead class="table-dark text-white">
+                          <tr>
+                            <th scope="col" class="text-start py-3 px-4">Bebidas y Refrescos</th>
+                            <th scope="col" class="text-center py-3 px-4 w-25"><i
+                                class="bi bi-tag-fill text-accent me-1"></i>Precio</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td class="text-start px-4 text-light fw-medium">Vaso de cebada</td>
+                            <td class="text-center"><span
+                                class="badge bg-warning text-dark fw-bold px-3 py-2 rounded-pill">S/ 1.50</span></td>
+                          </tr>
+                          <tr>
+                            <td class="text-start px-4 text-light fw-medium">Jarra de cebada 1 1/2 Litros</td>
+                            <td class="text-center"><span
+                                class="badge bg-warning text-dark fw-bold px-3 py-2 rounded-pill">S/ 6.00</span></td>
+                          </tr>
+                          <tr>
+                            <td class="text-start px-4 text-light fw-medium">Vaso de chicha morada</td>
+                            <td class="text-center"><span
+                                class="badge bg-warning text-dark fw-bold px-3 py-2 rounded-pill">S/ 2.00</span></td>
+                          </tr>
+                          <tr>
+                            <td class="text-start px-4 text-light fw-medium">Jarra de chicha morada 1 1/2 Litros</td>
+                            <td class="text-center"><span
+                                class="badge bg-warning text-dark fw-bold px-3 py-2 rounded-pill">S/ 8.00</span></td>
+                          </tr>
+                          <tr>
+                            <td class="text-start px-4 text-light fw-medium">Gaseosa 355 ml</td>
+                            <td class="text-center"><span
+                                class="badge bg-warning text-dark fw-bold px-3 py-2 rounded-pill">S/ 1.50</span></td>
+                          </tr>
+                          <tr>
+                            <td class="text-start px-4 text-light fw-medium">Gaseosa 600 ml</td>
+                            <td class="text-center"><span
+                                class="badge bg-warning text-dark fw-bold px-3 py-2 rounded-pill">S/ 3.50</span></td>
+                          </tr>
+                          <tr>
+                            <td class="text-start px-4 text-light fw-medium">Gaseosa 1 1/2 Litros</td>
+                            <td class="text-center"><span
+                                class="badge bg-warning text-dark fw-bold px-3 py-2 rounded-pill">S/ 6.50</span></td>
+                          </tr>
+                          <tr>
+                            <td class="text-start px-4 text-light fw-medium">Agua mineral</td>
+                            <td class="text-center"><span
+                                class="badge bg-warning text-dark fw-bold px-3 py-2 rounded-pill">S/ 2.50</span></td>
+                          </tr>
+                          <tr>
+                            <td class="text-start px-4 text-light fw-medium">Cerveza Cristal personal</td>
+                            <td class="text-center"><span
+                                class="badge bg-warning text-dark fw-bold px-3 py-2 rounded-pill">S/ 4.50</span></td>
+                          </tr>
+                          <tr>
+                            <td class="text-start px-4 text-light fw-medium">Cerveza Pilsen personal</td>
+                            <td class="text-center"><span
+                                class="badge bg-warning text-dark fw-bold px-3 py-2 rounded-pill">S/ 5.50</span></td>
+                          </tr>
+                          <tr>
+                            <td class="text-start px-4 text-light fw-medium">Cusqueña trigo personal</td>
+                            <td class="text-center"><span
+                                class="badge bg-warning text-dark fw-bold px-3 py-2 rounded-pill">S/ 6.50</span></td>
+                          </tr>
+                          <tr>
+                            <td class="text-start px-4 text-light fw-medium">Cusqueña negra personal</td>
+                            <td class="text-center"><span
+                                class="badge bg-warning text-dark fw-bold px-3 py-2 rounded-pill">S/ 6.50</span></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section id="sedes" class="py-5 bg-light">
       <div class="container py-4">
         <div class="text-center mb-5">
-          <span class="badge bg-primary px-3 py-2 rounded-pill mb-2">Reserva tu mesa</span>
-          <h2 class="display-5 fw-bold text-dark">Formulario de Reservas</h2>
-          <p class="text-muted lead mx-auto" style="max-width: 600px;">
+          <span class="badge bg-primary px-3 py-2 rounded-pill mb-2"><i class="bi bi-geo-alt-fill me-1"></i> Nuestras
+            Sedes</span>
+          <h2 class="display-5 fw-bold text-dark">Visítanos en Piura y Castilla</h2>
+        </div>
+        <div class="row g-4 justify-content-center">
+
+          <div class="col-lg-5 col-md-6">
+            <div class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3973.3285676777273!2d-80.6216994!3d-5.2109611!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x904a110024e7a311%3A0x436308ccddfeaa06!2sCevicheria%20El%20Huarique%20D%22Luis!5e0!3m2!1ses-419!2spe!4v1787975950790!5m2!1ses-419!2spe"
+                width="100%" height="220" style="border:0;" allowfullscreen="" loading="lazy"
+                referrerpolicy="strict-origin-when-cross-origin"></iframe>
+              <div class="card-body p-4">
+                <h5 class="card-title text-primary fw-bold"><i class="bi bi-geo-alt-fill text-danger me-1"></i> Sede
+                  Castilla</h5>
+                <p class="card-text mb-1"><i class="bi bi-signpost-2 me-2"></i>Av. Progreso 1213, Castilla - Piura</p>
+                <p class="card-text mb-1"><i class="bi bi-clock me-2"></i>Lun a Dom: 10:00 AM - 6:00 PM</p>
+                <p class="card-text mb-0"><i class="bi bi-telephone me-2"></i>975 519 075</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-5 col-md-6">
+            <div class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!3m2!1ses-419!2spe!4v1787974775129!5m2!1ses-419!2spe!6m8!1m7!1so3EE8Fr1VvhnVT6F37vHuQ!2m2!1d-5.197739680636505!2d-80.62155744139031!3f70.51323947825718!4f-7.432487805631439!5f1.6715115246599885"
+                width="100%" height="220" style="border:0;" allowfullscreen="" loading="lazy"
+                referrerpolicy="strict-origin-when-cross-origin"></iframe>
+              <div class="card-body p-4">
+                <h5 class="card-title text-primary fw-bold"><i class="bi bi-geo-alt-fill text-danger me-1"></i> Sede
+                  Ramón
+                  Castilla</h5>
+                <p class="card-text mb-1"><i class="bi bi-signpost-2 me-2"></i>Av. Ramón Castilla 202, Castilla - Piura
+                </p>
+                <p class="card-text mb-1"><i class="bi bi-clock me-2"></i>Lun a Dom: 10:00 AM - 6:00 PM</p>
+                <p class="card-text mb-0"><i class="bi bi-telephone me-2"></i>975 519 075</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section id="reservas" class="py-5 bg-brand-dark">
+      <div class="container py-4">
+        <div class="text-center mb-5">
+          <span class="section-tag"><i class="bi bi-calendar2-check-fill me-1"></i> Reserva tu mesa</span>
+          <h2 class="display-5 fw-bold text-white">Formulario de <span class="text-accent">Reservas</span></h2>
+          <p class="text-light text-opacity-75 lead mx-auto" style="max-width: 600px;">
             Asegura tu lugar y disfruta de la mejor experiencia gastronómica en cualquiera de nuestros dos locales.
           </p>
         </div>
         <div class="row justify-content-center">
           <div class="col-lg-8">
-            <div class="card shadow-sm border-0 rounded-4 p-4 p-md-5 bg-light">
-              <form id="reservaForm" th:action="@{/reservas/registrar}" th:object="${reserva}" method="post" class="needs-validation" novalidate>
+            <div class="card shadow-lg border border-white border-opacity-10 rounded-4 p-4 p-md-5"
+              style="background: #1a1a2e;">
+              <form id="reservaForm" th:action="@{/reservas/registrar}" th:object="${reserva}" method="post"
+                class="needs-validation" novalidate>
                 <div class="row g-3">
                   <div class="col-md-6">
-                    <label for="resNombre" class="form-label fw-semibold">Nombre Completo</label>
-                    <input type="text" class="form-control" id="resNombre" th:field="*{nombre}" placeholder="Tu nombre y apellido" required>
+                    <label for="resNombre" class="form-label fw-semibold text-white">Nombre Completo</label>
+                    <input type="text" class="form-control" id="resNombre" th:field="*{nombre}"
+                      placeholder="Tu nombre y apellido" required>
                     <div class="invalid-feedback">Por favor ingrese su nombre.</div>
                   </div>
                   <div class="col-md-6">
-                    <label for="resTelefono" class="form-label fw-semibold">Teléfono</label>
-                    <input type="tel" class="form-control" id="resTelefono" th:field="*{telefono}" placeholder="Ej. 987654321" required>
+                    <label for="resTelefono" class="form-label fw-semibold text-white">Teléfono</label>
+                    <input type="tel" class="form-control" id="resTelefono" th:field="*{telefono}"
+                      placeholder="Ej. 975 519 075" required>
                     <div class="invalid-feedback">Por favor ingrese su teléfono.</div>
                   </div>
                   <div class="col-md-12">
-                    <label for="resSede" class="form-label fw-semibold">Sede</label>
+                    <label for="resSede" class="form-label fw-semibold text-white">Sede</label>
                     <select class="form-select" id="resSede" th:field="*{sede}" required>
                       <option value="" selected disabled>Seleccione una sede...</option>
                       <option value="Castilla (Av. Progreso 1213)">Sede Castilla</option>
@@ -837,22 +1021,24 @@
                     <div class="invalid-feedback">Por favor seleccione una sede.</div>
                   </div>
                   <div class="col-md-4">
-                    <label for="resFecha" class="form-label fw-semibold">Fecha</label>
+                    <label for="resFecha" class="form-label fw-semibold text-white">Fecha</label>
                     <input type="date" class="form-control" id="resFecha" th:field="*{fecha}" required>
                     <div class="invalid-feedback">Por favor seleccione una fecha.</div>
                   </div>
                   <div class="col-md-4">
-                    <label for="resHora" class="form-label fw-semibold">Hora</label>
+                    <label for="resHora" class="form-label fw-semibold text-white">Hora</label>
                     <input type="time" class="form-control" id="resHora" th:field="*{hora}" required>
                     <div class="invalid-feedback">Por favor seleccione una hora.</div>
                   </div>
                   <div class="col-md-4">
-                    <label for="resPersonas" class="form-label fw-semibold">N° Personas</label>
-                    <input type="number" class="form-control" id="resPersonas" th:field="*{personas}" min="1" max="20" placeholder="2" required>
+                    <label for="resPersonas" class="form-label fw-semibold text-white">N° Personas</label>
+                    <input type="number" class="form-control" id="resPersonas" th:field="*{personas}" min="1" max="20"
+                      placeholder="1 a 20" required>
                     <div class="invalid-feedback">Por favor ingrese la cantidad de personas.</div>
                   </div>
                   <div class="col-12 mt-4 text-center">
-                    <button class="btn btn-primary px-5 py-2 rounded-pill fw-bold" type="submit">Confirmar Reserva</button>
+                    <button class="btn btn-reserva-nav px-5 py-2 rounded-pill fw-bold" type="submit">Confirmar
+                      Reserva</button>
                   </div>
                 </div>
               </form>
@@ -862,71 +1048,146 @@
       </div>
     </section>
 
-    <!-- MODAL DE CONFIRMACIÓN (Edu) -->
-    <div class="modal fade" id="confirmacionModal" tabindex="-1" aria-labelledby="confirmacionModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content rounded-4 border-0 shadow">
-          <div class="modal-header bg-success text-white rounded-top-4">
-            <h5 class="modal-title fw-bold" id="confirmacionModalLabel"><i class="bi bi-check-circle-fill me-2"></i>¡Reserva Exitosa!</h5>
-            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+    <div class="modal fade" id="confirmacionModal" tabindex="-1" aria-labelledby="confirmacionModalLabel"
+      aria-hidden="true" th:classappend="${reservaExitosa != null} ? ' show-on-load' : ''">
+      <div class="modal-dialog modal-dialog-centered" style="max-width: 490px;">
+        <div class="modal-content rounded-4 border border-success border-opacity-50 text-white shadow-lg"
+          style="background: #161922; border-radius: 24px; box-shadow: 0 15px 40px rgba(0,0,0,0.6);">
+          <div class="modal-header border-0 pb-0 text-center d-block position-relative pt-4">
+            <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3"
+              data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            <div
+              class="d-inline-flex align-items-center justify-content-center bg-success text-white rounded-circle mb-3 shadow"
+              style="width: 76px; height: 76px; box-shadow: 0 0 25px rgba(25, 135, 84, 0.45) !important;">
+              <i class="bi bi-check-lg text-white"
+                style="font-size: 2.8rem; font-weight: 800; -webkit-text-stroke: 1.5px;"></i>
+            </div>
+            <h4 class="modal-title fw-bold text-white fs-4" id="confirmacionModalLabel">¡Reserva Registrada con Éxito!
+            </h4>
           </div>
-          <div class="modal-body text-center p-4">
-            <p class="fs-5 mb-4">Hola <strong id="modalNombre" class="text-primary"></strong>, tu reserva ha sido registrada correctamente.</p>
-            <ul class="list-group list-group-flush text-start mb-4">
-              <li class="list-group-item"><i class="bi bi-telephone text-muted me-2"></i> <strong>Teléfono:</strong> <span id="modalTelefono"></span></li>
-              <li class="list-group-item"><i class="bi bi-geo-alt text-muted me-2"></i> <strong>Sede:</strong> <span id="modalSede"></span></li>
-              <li class="list-group-item"><i class="bi bi-calendar-event text-muted me-2"></i> <strong>Fecha:</strong> <span id="modalFecha"></span></li>
-              <li class="list-group-item"><i class="bi bi-clock text-muted me-2"></i> <strong>Hora:</strong> <span id="modalHora"></span></li>
-              <li class="list-group-item"><i class="bi bi-people text-muted me-2"></i> <strong>Personas:</strong> <span id="modalPersonas"></span></li>
-            </ul>
-            <p class="text-muted small mb-0">Te esperamos en El Huarique de Luis para disfrutar de la mejor sazón.</p>
+          <div class="modal-body text-center px-4 py-3">
+            <p class="fs-5 mb-3 text-white">
+              Hola <strong class="text-warning fw-bold" id="modalReservaNombre"
+                th:text="${reservaExitosa != null ? reservaExitosa.nombre : 'Cliente'}">Cliente</strong>, tu reserva ha
+              sido registrada correctamente.
+            </p>
+            <div class="p-3 text-start mb-3 rounded-4"
+              style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.12);">
+              <div class="row g-3">
+                <div class="col-6">
+                  <div class="d-flex align-items-center">
+                    <i class="bi bi-telephone-fill text-warning fs-5 me-2 flex-shrink-0"></i>
+                    <div class="text-truncate">
+                      <div class="text-white-50 small fw-semibold">Teléfono:</div>
+                      <span class="text-white fw-bold" id="modalReservaTelefono"
+                        th:text="${reservaExitosa != null ? reservaExitosa.telefono : '987654321'}">987654321</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="d-flex align-items-center">
+                    <i class="bi bi-people-fill text-warning fs-5 me-2 flex-shrink-0"></i>
+                    <div class="text-truncate">
+                      <div class="text-white-50 small fw-semibold">Personas:</div>
+                      <span class="text-white fw-bold" id="modalReservaPersonas"
+                        th:text="${reservaExitosa != null ? reservaExitosa.personas + ' personas' : '2 personas'}">2
+                        personas</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="d-flex align-items-center">
+                    <i class="bi bi-geo-alt-fill text-warning fs-5 me-2 flex-shrink-0"></i>
+                    <div class="text-truncate">
+                      <div class="text-white-50 small fw-semibold">Sede:</div>
+                      <span class="text-white fw-bold" id="modalReservaSede"
+                        th:text="${reservaExitosa != null ? reservaExitosa.sede : 'Castilla (Av. Progreso 1213)'}">Castilla
+                        (Av. Progreso 1213)</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="d-flex align-items-center">
+                    <i class="bi bi-calendar-event-fill text-warning fs-5 me-2 flex-shrink-0"></i>
+                    <div class="text-truncate">
+                      <div class="text-white-50 small fw-semibold">Fecha:</div>
+                      <span class="text-white fw-bold" id="modalReservaFecha"
+                        th:text="${reservaExitosa != null ? reservaExitosa.fecha : '2026-09-27'}">2026-09-27</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="d-flex align-items-center">
+                    <i class="bi bi-clock-fill text-warning fs-5 me-2 flex-shrink-0"></i>
+                    <div class="text-truncate">
+                      <div class="text-white-50 small fw-semibold">Hora:</div>
+                      <span class="text-white fw-bold" id="modalReservaHora"
+                        th:text="${reservaExitosa != null ? reservaExitosa.hora : '13:00'}">13:00</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p class="text-light text-opacity-75 small mb-0">
+              <i class="bi bi-info-circle-fill text-warning me-1"></i>El equipo de El Huarique de Luis te espera en la
+              fecha indicada.
+            </p>
           </div>
-          <div class="modal-footer justify-content-center border-0 pb-4">
-            <button type="button" class="btn btn-success px-4 rounded-pill" data-bs-dismiss="modal">Aceptar</button>
+          <div class="modal-footer justify-content-center border-0 pb-4 pt-1">
+            <button type="button" class="btn btn-warning text-dark px-5 py-2 rounded-pill fw-bold shadow-sm"
+              data-bs-dismiss="modal">
+              <i class="bi bi-check-lg me-1"></i>Aceptar
+            </button>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- SECCIÓN 5: CONTACTO (Isa) -->
-    <!-- ========================================== -->
     <section id="contacto" class="py-5 bg-white text-center">
       <div class="container py-4">
-        <span class="badge bg-primary px-3 py-2 rounded-pill mb-2">Contáctanos</span>
+        <span class="badge bg-primary px-3 py-2 rounded-pill mb-2"><i class="bi bi-chat-dots-fill me-1"></i>
+          Contáctanos</span>
         <h2 class="display-5 fw-bold text-dark mb-3">¿Tienes alguna consulta?</h2>
         <p class="text-muted lead mx-auto mb-4" style="max-width: 600px;">
           Escríbenos directamente por WhatsApp y te responderemos a la brevedad.
         </p>
         <a href="https://wa.me/51975519075" target="_blank" rel="noopener noreferrer"
-           class="btn btn-success btn-lg rounded-pill px-5">
+          class="btn btn-success btn-lg rounded-pill px-5">
           <i class="bi bi-whatsapp me-2"></i>Escríbenos por WhatsApp
         </a>
       </div>
     </section>
 
-    <!-- SECCIÓN 6: PANEL CONDICIONAL DE TRABAJADOR (Sesión Simulada) -->
+
+    <!-- SECCIÓN: PANEL CONDICIONAL DE TRABAJADOR (Sesión Simulada) -->
     <!-- ============================================================== -->
-    <section id="panel-trabajador" th:if="${esTrabajador}" class="py-5 bg-dark text-white border-top border-warning border-3">
+    <section id="panel-trabajador" th:if="${esTrabajador}"
+      class="py-5 bg-brand-dark border-top border-warning border-3">
       <div class="container py-3">
-        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4 pb-3 border-bottom border-secondary border-opacity-50">
+        <div
+          class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4 pb-3 border-bottom border-secondary border-opacity-50">
           <div>
-            <span class="badge bg-warning text-dark px-3 py-2 rounded-pill mb-2"><i class="bi bi-shield-lock-fill me-1"></i>Modo Administrador</span>
+            <span class="badge bg-warning text-dark px-3 py-2 rounded-pill mb-2"><i
+                class="bi bi-shield-lock-fill me-1"></i>Modo Administrador</span>
             <h2 class="display-6 fw-bold text-white mb-1">Panel de Gestión del Trabajador</h2>
-            <p class="text-secondary small mb-0">Gestión en tiempo real de productos, reservas de comensales y clientes frecuentes</p>
+            <p class="text-light text-opacity-75 small mb-0">Gestión en tiempo real de productos, reservas de comensales
+              y clientes frecuentes</p>
           </div>
           <a th:href="@{/logout}" class="btn btn-outline-danger px-4 rounded-pill">
-            <i class="bi bi-box-arrow-right me-1"></i>Cerrar Sesión de Trabajador
+            <i class="bi bi-box-arrow-right me-1"></i>Cerrar Sesión
           </a>
         </div>
 
         <!-- 1. GESTIÓN DEL MENÚ (CRUD PRODUCTOS) -->
-        <div class="card bg-black bg-opacity-50 border-secondary rounded-4 p-4 mb-5 shadow">
+        <div class="card shadow-lg border border-white border-opacity-10 rounded-4 p-4 mb-5"
+          style="background: #1a1a2e;">
           <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
             <div>
-              <h3 class="h4 text-warning fw-bold mb-0"><i class="bi bi-card-checklist me-2"></i>Gestión de Productos (Menú)</h3>
-              <p class="text-secondary small mb-0">Alta, baja y modificación de platos destacados</p>
+              <h3 class="h4 text-warning fw-bold mb-0"><i class="bi bi-card-checklist me-2"></i>Gestión de Platos
+                Especiales</h3>
+              <p class="text-light text-opacity-75 small mb-0">Alta, baja y modificación de platos destacados</p>
             </div>
-            <a th:href="@{/productos/nuevo}" class="btn btn-warning fw-bold px-4 rounded-pill">
+            <a th:href="@{/productos/nuevo}" class="btn btn-warning text-dark fw-bold px-4 rounded-pill">
               <i class="bi bi-plus-circle-fill me-1"></i>Agregar Nuevo Producto
             </a>
           </div>
@@ -935,26 +1196,37 @@
               <thead class="table-warning text-dark">
                 <tr>
                   <th scope="col" style="width: 60px;">ID</th>
+                  <th scope="col" style="width: 70px;" class="text-center">Foto</th>
                   <th scope="col">Nombre del Plato</th>
                   <th scope="col">Precio</th>
                   <th scope="col">Etiqueta</th>
-                  <th scope="col" class="text-center" style="width: 280px;">Acciones</th>
+                  <th scope="col" class="text-center" style="width: 220px;">Acciones</th>
                 </tr>
               </thead>
               <tbody>
                 <tr th:each="p : ${platos}">
                   <td class="fw-bold text-secondary text-center" th:text="${p.id}">1</td>
+                  <td class="text-center">
+                    <img th:src="${#strings.startsWith(p.imagenUrl, 'http') ? p.imagenUrl : '/' + p.imagenUrl}"
+                      th:alt="${p.nombre}"
+                      style="width: 44px; height: 44px; object-fit: cover; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2);"
+                      onerror="this.src='/img/ceviche-mixto.jpg'">
+                  </td>
                   <td class="fw-semibold text-white" th:text="${p.nombre}">Ceviche Mixto</td>
-                  <td class="text-warning fw-bold" th:text="'S/ ' + ${#numbers.formatDecimal(p.precio, 1, 2)}">S/ 38.00</td>
-                  <td><span class="badge bg-primary" th:text="${p.etiqueta}">Popular</span></td>
+                  <td class="text-warning fw-bold" th:text="'S/ ' + ${#numbers.formatDecimal(p.precio, 1, 2)}">S/ 38.00
+                  </td>
+                  <td><span class="badge"
+                      th:classappend="${p.colorEtiqueta != null and !#strings.isEmpty(p.colorEtiqueta) ? p.colorEtiqueta : 'bg-primary'}"
+                      th:text="${p.etiqueta}">Popular</span></td>
                   <td class="text-center">
                     <a th:href="@{/productos/editar/{id}(id=${p.id})}" class="btn btn-sm btn-outline-warning me-1">
                       <i class="bi bi-pencil-square me-1"></i>Editar
                     </a>
-                    <a th:href="@{/productos/eliminar/{id}(id=${p.id})}" class="btn btn-sm btn-outline-danger"
-                       onclick="return confirm('¿Seguro que deseas eliminar este producto?');">
+                    <button type="button" class="btn btn-sm btn-outline-danger" th:data-id="${p.id}"
+                      th:data-nombre="${p.nombre}"
+                      onclick="abrirModalEliminar(this.getAttribute('data-id'), this.getAttribute('data-nombre'))">
                       <i class="bi bi-trash-fill me-1"></i>Eliminar
-                    </a>
+                    </button>
                   </td>
                 </tr>
               </tbody>
@@ -962,35 +1234,145 @@
           </div>
         </div>
 
+        <div class="modal fade" id="modalEliminarPlato" tabindex="-1" aria-labelledby="modalEliminarPlatoLabel"
+          aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" style="max-width: 420px;">
+            <div class="modal-content text-white border border-danger border-opacity-50 shadow-lg"
+              style="background: #1a1a2e; border-radius: 20px;">
+              <div class="modal-body text-center p-4">
+                <div class="mb-3">
+                  <div
+                    class="d-inline-flex align-items-center justify-content-center bg-danger bg-opacity-10 text-danger rounded-circle"
+                    style="width: 70px; height: 70px;">
+                    <i class="bi bi-trash3-fill fs-1"></i>
+                  </div>
+                </div>
+                <h4 class="fw-bold mb-2 text-white" id="modalEliminarPlatoLabel">¿Eliminar plato?</h4>
+                <p class="text-light text-opacity-75 small mb-4">
+                  ¿Estás seguro de que deseas eliminar <strong id="nombrePlatoEliminar" class="text-warning">este
+                    plato</strong> del menú? Esta acción no se puede deshacer.
+                </p>
+                <div class="d-flex justify-content-center gap-2">
+                  <button type="button" class="btn btn-outline-secondary px-4 rounded-pill fw-semibold"
+                    data-bs-dismiss="modal">
+                    Cancelar
+                  </button>
+                  <a id="btnConfirmarEliminar" href="#" class="btn btn-danger px-4 rounded-pill fw-bold">
+                    <i class="bi bi-trash-fill me-1"></i>Sí, eliminar
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal fade" id="modalEliminarReserva" tabindex="-1" aria-labelledby="modalEliminarReservaLabel"
+          aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" style="max-width: 420px;">
+            <div class="modal-content text-white border border-danger border-opacity-50 shadow-lg"
+              style="background: #1a1a2e; border-radius: 20px;">
+              <div class="modal-body text-center p-4">
+                <div class="mb-3">
+                  <div
+                    class="d-inline-flex align-items-center justify-content-center bg-danger bg-opacity-10 text-danger rounded-circle"
+                    style="width: 70px; height: 70px;">
+                    <i class="bi bi-trash3-fill fs-1"></i>
+                  </div>
+                </div>
+                <h4 class="fw-bold mb-2 text-white" id="modalEliminarReservaLabel">¿Eliminar reserva?</h4>
+                <p class="text-light text-opacity-75 small mb-4">
+                  ¿Estás seguro de que deseas eliminar la reserva de <strong id="nombreReservaEliminar"
+                    class="text-warning">este cliente</strong>? Esta acción no se puede deshacer.
+                </p>
+                <div class="d-flex justify-content-center gap-2">
+                  <button type="button" class="btn btn-outline-secondary px-4 rounded-pill fw-semibold"
+                    data-bs-dismiss="modal">
+                    Cancelar
+                  </button>
+                  <a id="btnConfirmarEliminarReserva" href="#" class="btn btn-danger px-4 rounded-pill fw-bold">
+                    <i class="bi bi-trash-fill me-1"></i>Sí, eliminar
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- 2. RESERVAS REGISTRADAS -->
-        <div class="card bg-black bg-opacity-50 border-secondary rounded-4 p-4 mb-5 shadow">
-          <div class="mb-3">
-            <h3 class="h4 text-warning fw-bold mb-0"><i class="bi bi-calendar2-check-fill me-2"></i>Reservas Registradas</h3>
-            <p class="text-secondary small mb-0">Lista en memoria de reservas realizadas por comensales</p>
+        <div class="card shadow-lg border border-white border-opacity-10 rounded-4 p-4 mb-5"
+          style="background: #1a1a2e;">
+          <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+            <div>
+              <h3 class="h4 text-warning fw-bold mb-0"><i class="bi bi-calendar2-check-fill me-2"></i>Reservas
+                Registradas</h3>
+              <p class="text-light text-opacity-75 small mb-0">Gestión en tiempo real de reservas realizadas por
+                comensales</p>
+            </div>
+            <span class="badge bg-secondary text-light px-3 py-2 rounded-pill">
+              <i class="bi bi-people-fill me-1"></i>Total: <span id="totalReservasBadge"
+                th:text="${reservas != null ? #lists.size(reservas) : 0}">0</span>
+            </span>
           </div>
           <div class="table-responsive">
             <table class="table table-dark table-hover table-bordered align-middle mb-0">
               <thead class="table-warning text-dark">
                 <tr>
+                  <th scope="col" style="width: 50px;" class="text-center">ID</th>
                   <th scope="col">Cliente</th>
                   <th scope="col">Teléfono</th>
                   <th scope="col">Sede</th>
-                  <th scope="col">Fecha</th>
-                  <th scope="col">Hora</th>
+                  <th scope="col">Fecha &amp; Hora</th>
                   <th scope="col" class="text-center">Personas</th>
+                  <th scope="col" class="text-center">Estado</th>
+                  <th scope="col" class="text-center" style="width: 170px;">Acciones</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody id="tablaReservasBody">
                 <tr th:if="${reservas == null or #lists.isEmpty(reservas)}">
-                  <td colspan="6" class="text-center text-secondary py-3">No hay reservas registradas en este momento.</td>
+                  <td colspan="8" class="text-center text-secondary py-3">No hay reservas registradas en este momento.
+                  </td>
                 </tr>
-                <tr th:each="r : ${reservas}">
-                  <td class="fw-semibold text-white" th:text="${r.nombre}">Juan Pérez</td>
+                <tr th:each="r : ${reservas}" th:id="'fila-reserva-' + ${r.id}">
+                  <td class="text-center text-secondary fw-bold" th:text="${r.id}">1</td>
+                  <td class="fw-semibold text-white" th:text="${r.nombre}">Carlos Mendoza</td>
                   <td th:text="${r.telefono}">987654321</td>
                   <td th:text="${r.sede}">Castilla</td>
-                  <td th:text="${r.fecha}">2026-09-26</td>
-                  <td th:text="${r.hora}">13:00</td>
-                  <td class="text-center"><span class="badge bg-success" th:text="${r.personas} + ' personas'">2 personas</span></td>
+                  <td>
+                    <span th:text="${r.fecha}">2026-09-28</span>
+                    <small class="text-warning d-block" th:text="${r.hora}">13:30</small>
+                  </td>
+                  <td class="text-center">
+                    <span class="badge bg-dark border border-secondary" th:text="${r.personas} + ' personas'">4
+                      personas</span>
+                  </td>
+                  <td class="text-center" th:id="'estado-reserva-' + ${r.id}">
+                    <span th:if="${r.estado == 'Confirmada'}" class="badge bg-success">
+                      <i class="bi bi-check-circle-fill me-1"></i>Confirmada
+                    </span>
+                    <span th:if="${r.estado == 'Pendiente'}" class="badge bg-warning text-dark">
+                      <i class="bi bi-clock-history me-1"></i>Pendiente
+                    </span>
+                    <span th:if="${r.estado == 'Cancelada'}" class="badge bg-danger">
+                      <i class="bi bi-x-circle-fill me-1"></i>Cancelada
+                    </span>
+                  </td>
+                  <td class="text-center">
+                    <div class="btn-group btn-group-sm" role="group">
+                      <button type="button" class="btn btn-outline-success" title="Confirmar Reserva"
+                        th:onclick="'actualizarEstadoReserva(' + ${r.id} + ', \'Confirmada\')'">
+                        <i class="bi bi-check-lg"></i>
+                      </button>
+                      <button type="button" class="btn btn-outline-warning" title="Marcar como Cancelada"
+                        th:onclick="'actualizarEstadoReserva(' + ${r.id} + ', \'Cancelada\')'">
+                        <i class="bi bi-slash-circle"></i>
+                      </button>
+                      <button type="button" class="btn btn-outline-danger" title="Eliminar Reserva" th:data-id="${r.id}"
+                        th:data-nombre="${r.nombre}"
+                        onclick="abrirModalEliminarReserva(this.getAttribute('data-id'), this.getAttribute('data-nombre'))">
+                        <i class="bi bi-trash-fill"></i>
+                      </button>
+                    </div>
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -998,27 +1380,39 @@
         </div>
 
         <!-- 3. CLIENTES MÁS FRECUENTES -->
-        <div class="card bg-black bg-opacity-50 border-secondary rounded-4 p-4 shadow">
+        <div class="card shadow-lg border border-white border-opacity-10 rounded-4 p-4" style="background: #1a1a2e;">
           <div class="mb-3">
             <h3 class="h4 text-warning fw-bold mb-0"><i class="bi bi-trophy-fill me-2"></i>Clientes Más Frecuentes</h3>
-            <p class="text-secondary small mb-0">Ranking calculado automáticamente a partir de las reservas registradas</p>
+            <p class="text-light text-opacity-75 small mb-0">Ranking calculado automáticamente a partir de las reservas
+              registradas</p>
           </div>
           <div class="table-responsive">
             <table class="table table-dark table-hover table-bordered align-middle mb-0" style="max-width: 600px;">
               <thead class="table-warning text-dark">
                 <tr>
+                  <th scope="col" style="width: 80px;" class="text-center">Puesto</th>
                   <th scope="col">Nombre del Cliente</th>
                   <th scope="col" class="text-center" style="width: 200px;">Cantidad de Reservas</th>
                 </tr>
               </thead>
               <tbody>
                 <tr th:if="${clientesFrecuentes == null or #lists.isEmpty(clientesFrecuentes)}">
-                  <td colspan="2" class="text-center text-secondary py-3">Sin datos de clientes frecuentes.</td>
+                  <td colspan="3" class="text-center text-secondary py-3">Sin datos de clientes frecuentes.</td>
                 </tr>
-                <tr th:each="c : ${clientesFrecuentes}">
+                <tr th:each="c, stat : ${clientesFrecuentes}">
+                  <td class="text-center fw-bold">
+                    <span th:if="${stat.index == 0}" class="badge bg-warning text-dark px-2 py-1"><i
+                        class="bi bi-award-fill me-1"></i>#1</span>
+                    <span th:if="${stat.index == 1}" class="badge bg-secondary px-2 py-1"><i
+                        class="bi bi-award me-1"></i>#2</span>
+                    <span th:if="${stat.index == 2}" class="badge bg-dark border border-secondary px-2 py-1"><i
+                        class="bi bi-award me-1"></i>#3</span>
+                    <span th:if="${stat.index > 2}" class="text-secondary" th:text="'#' + ${stat.count}">#4</span>
+                  </td>
                   <td class="fw-semibold text-white" th:text="${c.key}">Nombre</td>
                   <td class="text-center">
-                    <span class="badge bg-warning text-dark fw-bold px-3 py-2" th:text="${c.value} + ' reservas'">1 reservas</span>
+                    <span class="badge bg-warning text-dark fw-bold px-3 py-2" th:text="${c.value} + ' reservas'">1
+                      reservas</span>
                   </td>
                 </tr>
               </tbody>
@@ -1031,7 +1425,6 @@
 
   </main>
 
-  <!-- 4. PIE DE PÁGINA -->
   <footer class="site-footer">
     <div class="container">
       <div class="row g-4">
@@ -1052,52 +1445,64 @@
         </div>
 
         <div class="col-lg-2 col-md-6 col-6">
-          <h5 class="footer-heading">Navegación</h5>
-          <ul class="footer-links">
-            <li><a href="#inicio"><i class="bi bi-chevron-right small"></i> Inicio</a></li>
-            <li><a href="#menu"><i class="bi bi-chevron-right small"></i> Menú</a></li>
-            <li><a href="#sedes"><i class="bi bi-chevron-right small"></i> Nuestras Sedes</a></li>
-            <li><a href="#reservas"><i class="bi bi-chevron-right small"></i> Reservar Mesa</a></li>
-            <li><a href="#contacto"><i class="bi bi-chevron-right small"></i> Contacto</a></li>
+          <h5 class="footer-heading text-white fw-bold mb-3">Navegación</h5>
+          <ul class="list-unstyled mb-0">
+            <li class="mb-2"><a href="#inicio"
+                class="footer-link text-decoration-none d-inline-flex align-items-center gap-2"><i
+                  class="bi bi-chevron-right small text-accent"></i> Inicio</a></li>
+            <li class="mb-2"><a href="#menu"
+                class="footer-link text-decoration-none d-inline-flex align-items-center gap-2"><i
+                  class="bi bi-chevron-right small text-accent"></i> Menú</a></li>
+            <li class="mb-2"><a href="#sedes"
+                class="footer-link text-decoration-none d-inline-flex align-items-center gap-2"><i
+                  class="bi bi-chevron-right small text-accent"></i> Nuestras Sedes</a></li>
+            <li class="mb-2"><a href="#reservas"
+                class="footer-link text-decoration-none d-inline-flex align-items-center gap-2"><i
+                  class="bi bi-chevron-right small text-accent"></i> Reservar Mesa</a></li>
+            <li class="mb-2"><a href="#contacto"
+                class="footer-link text-decoration-none d-inline-flex align-items-center gap-2"><i
+                  class="bi bi-chevron-right small text-accent"></i> Contacto</a></li>
           </ul>
         </div>
 
         <div class="col-lg-3 col-md-6 col-6">
-          <h5 class="footer-heading">Nuestras Sedes</h5>
-          <div class="footer-contact-item">
-            <i class="bi bi-geo-alt"></i>
+          <h5 class="footer-heading text-white fw-bold mb-3">Nuestras Sedes</h5>
+          <div class="d-flex align-items-start gap-3 mb-3 text-light text-opacity-75 small">
+            <i class="bi bi-geo-alt text-accent fs-5"></i>
             <div>
-              <strong class="text-white">Sede Castilla:</strong><br>
+              <strong class="text-white d-block">Sede Castilla:</strong>
               <span>Av. Progreso 1213, Castilla - Piura</span>
             </div>
           </div>
-          <div class="footer-contact-item">
-            <i class="bi bi-geo-alt"></i>
+          <div class="d-flex align-items-start gap-3 mb-3 text-light text-opacity-75 small">
+            <i class="bi bi-geo-alt text-accent fs-5"></i>
             <div>
-              <strong class="text-white">Sede Piura:</strong><br>
+              <strong class="text-white d-block">Sede Piura:</strong>
               <span>Piura Centro, Piura</span>
             </div>
           </div>
-          <div class="footer-contact-item">
-            <i class="bi bi-clock"></i>
+          <div class="d-flex align-items-start gap-3 mb-0 text-light text-opacity-75 small">
+            <i class="bi bi-clock text-accent fs-5"></i>
             <div>
-              <span>Atención: Lun a Dom</span><br>
+              <strong class="text-white d-block">Atención: Lun a Dom</strong>
               <span>10:00 AM - 6:00 PM</span>
             </div>
           </div>
         </div>
 
         <div class="col-lg-3 col-md-6">
-          <h5 class="footer-heading">Síguenos & Contáctanos</h5>
-          <p class="small text-light text-opacity-75 mb-2">
+          <h5 class="footer-heading text-white fw-bold mb-3">Síguenos & Contáctanos</h5>
+          <p class="small text-light text-opacity-75 mb-3">
             Conéctate con nosotros en nuestras redes oficiales y entérate de nuestras promociones diarias.
           </p>
-          <div class="footer-socials">
+          <div class="d-flex gap-2">
             <a href="https://www.facebook.com/CevichesYChicharronesLuchos" target="_blank" rel="noopener noreferrer"
-              class="social-btn" aria-label="Facebook">
+              class="social-btn rounded-circle d-inline-flex align-items-center justify-content-center text-white text-decoration-none"
+              aria-label="Facebook">
               <i class="bi bi-facebook"></i>
             </a>
-            <a href="https://wa.me/51975519075" target="_blank" rel="noopener noreferrer" class="social-btn"
+            <a href="https://wa.me/51975519075" target="_blank" rel="noopener noreferrer"
+              class="social-btn rounded-circle d-inline-flex align-items-center justify-content-center text-white text-decoration-none"
               aria-label="WhatsApp">
               <i class="bi bi-whatsapp"></i>
             </a>
@@ -1106,7 +1511,7 @@
 
       </div>
 
-      <div class="footer-bottom">
+      <div class="footer-bottom border-top border-white border-opacity-10 mt-5 pt-4 text-center text-secondary small">
         <p class="mb-0">
           &copy; <span id="currentYear"></span> <strong>Cevicheria y parrillas EL HUARIQUE DE LUIS</strong>. Todos los
           derechos reservados.
@@ -1115,10 +1520,71 @@
     </div>
   </footer>
 
-  <button type="button" id="btnBackToTop" class="back-to-top" aria-label="Volver arriba">
-    <i class="bi bi-arrow-up"></i>
+  <button type="button" id="btnBackToTop"
+    class="back-to-top rounded-circle text-white border-0 d-flex align-items-center justify-content-center"
+    aria-label="Volver arriba">
+    <i class="bi bi-arrow-up fs-5"></i>
   </button>
 
+
+  <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg"
+        style="background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));">
+
+        <div class="modal-header border-bottom border-white border-opacity-10">
+          <h5 class="modal-title text-white fw-bold" id="loginModalLabel">
+            <i class="bi bi-lock-fill me-2"></i>Acceso
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+
+        <div class="modal-body p-4">
+          <div th:if="${errorLogin}" id="loginErrorAlert"
+            class="alert alert-danger d-flex align-items-center py-2 px-3 mb-3 rounded-3" role="alert">
+            <i class="bi bi-exclamation-triangle-fill me-2 fs-5"></i>
+            <div>
+              <strong>Error:</strong> Correo o contraseña incorrectos.
+            </div>
+          </div>
+
+          <form id="loginForm" th:action="@{/login}" method="post" class="needs-validation" novalidate>
+
+            <div class="form-floating mb-3">
+              <input type="text" name="usuario" class="form-control bg-light" id="loginEmail" placeholder="trabajador"
+                required>
+              <label for="loginEmail" class="text-dark">
+                <i class="bi bi-person-fill me-2"></i>Usuario o Correo (trabajador)
+              </label>
+            </div>
+
+            <div class="form-floating mb-4">
+              <input type="password" name="clave" class="form-control bg-light" id="loginPassword" placeholder="1234"
+                required>
+              <label for="loginPassword" class="text-dark">
+                <i class="bi bi-key-fill me-2"></i>Contraseña (1234)
+              </label>
+            </div>
+
+            <button type="submit" class="btn btn-lg w-100 fw-bold"
+              style="background: var(--accent-color); color: white; border: none; border-radius: 8px;">
+              <i class="bi bi-box-arrow-in-right me-2"></i>Entrar al Panel
+            </button>
+
+            <hr class="border-white border-opacity-25 my-4">
+
+            <button type="button" class="btn btn-lg w-100 fw-bold"
+              style="background: transparent; color: white; border: 2px solid white; border-radius: 8px;"
+              data-bs-dismiss="modal">
+              <i class="bi bi-person me-2"></i>Entrar como Invitado
+            </button>
+
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"

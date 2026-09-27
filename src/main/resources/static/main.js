@@ -1,7 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
   'use strict';
 
-  // 1. Efecto Scroll en la barra de navegación
+  localStorage.removeItem('userLogged');
+  localStorage.removeItem('userEmail');
+
   const header = document.querySelector('.site-header');
   const backToTopBtn = document.getElementById('btnBackToTop');
 
@@ -15,7 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // 2. Cerrar el menú responsive móvil al hacer clic en un enlace
   const navLinks = document.querySelectorAll('.navbar-nav .nav-link, .btn-reserva-nav');
   const navbarCollapse = document.querySelector('.navbar-collapse');
 
@@ -30,32 +31,123 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // 3. Scroll suave hacia arriba con el botón Back to Top
   if (backToTopBtn) {
     backToTopBtn.addEventListener('click', () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   }
 
-  // 4. Actualización del año actual en el pie de página
   const yearSpan = document.getElementById('currentYear');
   if (yearSpan) {
     yearSpan.textContent = new Date().getFullYear();
   }
 
-  // 5. Validación de formulario de reservas (permite envío real a Spring Boot)
   const reservaForm = document.getElementById('reservaForm');
-
   if (reservaForm) {
+    const fechaInput = document.getElementById('resFecha');
+    if (fechaInput) {
+      const hoy = new Date().toISOString().split('T')[0];
+      fechaInput.min = hoy;
+      if (!fechaInput.value) {
+        fechaInput.value = hoy;
+      }
+    }
+
     reservaForm.addEventListener('submit', function (event) {
       if (!reservaForm.checkValidity()) {
         event.preventDefault();
         event.stopPropagation();
         reservaForm.classList.add('was-validated');
       }
-      // Si el formulario es válido, NO se ejecuta preventDefault(),
-      // permitiendo que la petición POST viaje al controlador de Spring Boot.
     }, false);
   }
 
+  const loginForm = document.getElementById('loginForm');
+  if (loginForm) {
+    loginForm.addEventListener('submit', function (event) {
+      if (!loginForm.checkValidity()) {
+        event.preventDefault();
+        event.stopPropagation();
+        loginForm.classList.add('was-validated');
+      }
+    }, false);
+  }
+
+  const loginModalEl = document.getElementById('loginModal');
+  const loginErrorAlert = document.getElementById('loginErrorAlert');
+
+  if (loginErrorAlert && loginModalEl) {
+    const loginModal = new bootstrap.Modal(loginModalEl);
+    loginModal.show();
+  }
+
+  if (loginModalEl) {
+    loginModalEl.addEventListener('hidden.bs.modal', () => {
+      const alert = document.getElementById('loginErrorAlert');
+      if (alert) {
+        alert.remove();
+      }
+    });
+  }
+
+  if (window.location.search.includes('error')) {
+    window.history.replaceState({}, document.title, window.location.pathname);
+  }
+
+  const confirmacionModalEl = document.getElementById('confirmacionModal');
+  if (confirmacionModalEl && confirmacionModalEl.classList.contains('show-on-load')) {
+    const confirmModal = new bootstrap.Modal(confirmacionModalEl);
+    confirmModal.show();
+  }
 });
+
+window.abrirModalEliminar = function (id, nombre) {
+  const nombreEl = document.getElementById('nombrePlatoEliminar');
+  const btnEl = document.getElementById('btnConfirmarEliminar');
+  const modalEl = document.getElementById('modalEliminarPlato');
+  if (nombreEl) {
+    nombreEl.textContent = `"${nombre}"`;
+  }
+  if (btnEl) {
+    btnEl.href = `/productos/eliminar/${id}`;
+  }
+  if (modalEl) {
+    const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+    modal.show();
+  }
+};
+
+window.abrirModalEliminarReserva = function (id, nombre) {
+  const nombreEl = document.getElementById('nombreReservaEliminar');
+  const btnEl = document.getElementById('btnConfirmarEliminarReserva');
+  const modalEl = document.getElementById('modalEliminarReserva');
+  if (nombreEl) {
+    nombreEl.textContent = `"${nombre}"`;
+  }
+  if (btnEl) {
+    btnEl.href = `/reservas/eliminar/${id}`;
+  }
+  if (modalEl) {
+    const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+    modal.show();
+  }
+};
+
+window.actualizarEstadoReserva = function (id, nuevoEstado) {
+  fetch(`/reservas/estado/${id}/${nuevoEstado}`)
+    .then(response => {
+      if (response.ok) {
+        const celda = document.getElementById(`estado-reserva-${id}`);
+        if (celda) {
+          if (nuevoEstado === 'Confirmada') {
+            celda.innerHTML = '<span class="badge bg-success"><i class="bi bi-check-circle-fill me-1"></i>Confirmada</span>';
+          } else if (nuevoEstado === 'Cancelada') {
+            celda.innerHTML = '<span class="badge bg-danger"><i class="bi bi-x-circle-fill me-1"></i>Cancelada</span>';
+          } else {
+            celda.innerHTML = '<span class="badge bg-warning text-dark"><i class="bi bi-clock-history me-1"></i>Pendiente</span>';
+          }
+        }
+      }
+    })
+    .catch(err => console.error('Error al actualizar estado:', err));
+};
